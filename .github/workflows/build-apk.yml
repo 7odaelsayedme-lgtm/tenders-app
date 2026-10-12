@@ -1,5 +1,7 @@
 name: Build APK
 on: [push, workflow_dispatch]
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,7 +14,14 @@ jobs:
       - run: npm ci
       - run: npx cap sync android
       - run: cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+      - run: cp android/app/build/outputs/apk/debug/app-debug.apk tenders.apk
       - uses: actions/upload-artifact@v4
         with:
           name: tenders-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: tenders.apk
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest tenders.apk --title "تطبيق متابعة المنافسات - آخر إصدار" --notes "بناء تلقائي من ${GITHUB_SHA::7}" --latest
