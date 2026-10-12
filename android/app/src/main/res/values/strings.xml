@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">متابعة المنافسات</string>
+    <string name="title_activity_main">متابعة المنافسات</string>
+    <string name="package_name">sa.almajal.tenders</string>
+    <string name="custom_url_scheme">sa.almajal.tenders</string>
+</resources>
