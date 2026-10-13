@@ -10,12 +10,13 @@
 <style>
 :root{--navy:#1F3864;--navy2:#2F4B7C;--navy-l:#EEF2F8;--slate:#44546A;--gold:#B8860B;--gold-l:#FBF3DC;--teal:#1F6F78;--teal-l:#E3F1F2;--brand:#EF6C2B;--brand-d:#C9541A;--brand-l:#FDEDE4;--ink:#1D1D1B;--ink2:#3A3A38;--bg:#F7F7F7;--line:#E4E4E2;--mut:#6B6B68;--red:#B42318;--red-l:#FDECEA;--amb:#8A5A00;--amb-l:#FFF3D6;--grn:#1E6B3C;--grn-l:#E5F4EA}
 *{box-sizing:border-box}
-body{margin:0;font-family:'Sakkal Majalla','Traditional Arabic','Simplified Arabic',Tahoma,sans-serif;font-size:14pt;color:var(--ink);background:var(--bg)}
+html{font-size:12pt;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:'Sakkal Majalla','Traditional Arabic','Simplified Arabic',Tahoma,'Noto Naskh Arabic','Noto Sans Arabic',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);background:var(--bg)}
 header{background:#fff;display:flex;align-items:center;gap:16px;padding:10px 24px;border-bottom:4px solid var(--brand);flex-wrap:wrap}
 .logo{height:56px;width:auto;display:block}.logo-img{height:56px;display:none}
 .sep{width:1px;height:44px;background:var(--line)}
-header h1{font-size:20pt;margin:0;font-weight:bold;line-height:1.2}
-header small{font-size:13pt;color:var(--mut)}
+header h1{font-size:1.429rem;margin:0;font-weight:bold;line-height:1.2}
+header small{font-size:0.929rem;color:var(--mut)}
 .bell{margin-inline-start:auto;background:var(--brand);border:none;color:#fff;border-radius:8px;padding:5px 16px;font:inherit;cursor:pointer}
 .bell span{background:#fff;color:var(--brand-d);border-radius:10px;padding:0 9px;margin-inline-start:8px;font-weight:bold}
 nav{display:flex;gap:2px;background:var(--navy);padding:0 16px;overflow-x:auto;white-space:nowrap}
@@ -24,11 +25,11 @@ nav button:hover{color:#fff}nav button.on{color:#fff;border-color:var(--brand);f
 main{padding:20px;max-width:1600px;margin:auto}
 .page{display:none}.page.on{display:block}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:18px}
-.card h2{font-size:16.5pt;margin:0 0 12px;border-inline-start:5px solid var(--navy);padding-inline-start:10px;color:var(--navy)}
+.card h2{font-size:1.179rem;margin:0 0 12px;border-inline-start:5px solid var(--navy);padding-inline-start:10px;color:var(--navy)}
 .card h2::after{content:'';display:inline-block;width:22px;height:3px;background:var(--brand);margin-inline-start:10px;vertical-align:middle;border-radius:2px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}
 .stat{background:#fff;border:1px solid var(--line);border-top:5px solid var(--navy);border-radius:12px;padding:12px 18px;color:var(--mut)}
-.stat b{display:block;font-size:28pt;line-height:1.2;color:var(--navy)}
+.stat b{display:block;font-size:2rem;line-height:1.2;color:var(--navy)}
 .stat.r{border-top-color:var(--red)}.stat.r b{color:var(--red)}.stat.a{border-top-color:var(--gold)}.stat.a b{color:var(--amb)}.stat.x{border-top-color:var(--slate)}.stat.x b{color:var(--slate)}.stat.g{border-top-color:var(--grn)}.stat.g b{color:var(--grn)}.stat.o{border-top-color:var(--brand)}.stat.o b{color:var(--brand-d)}
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
@@ -39,13 +40,13 @@ tbody tr:nth-child(even) td{background:#F5F7FB}
 tbody tr:hover td{background:#EAF0F8}
 td.nm{text-align:right;min-width:240px}
 a{color:var(--brand-d)}
-.b{display:inline-block;padding:0 10px;border-radius:12px;font-size:12pt;white-space:nowrap}
+.b{display:inline-block;padding:0 10px;border-radius:12px;font-size:0.857rem;white-space:nowrap}
 .b.r{background:var(--red-l);color:var(--red)}.b.a{background:var(--amb-l);color:var(--amb)}.b.g{background:var(--grn-l);color:var(--grn)}.b.x{background:#EEEEEC;color:var(--ink2)}
 input,select,textarea{font:inherit;padding:5px 10px;border:1px solid #D2D2CF;border-radius:6px;width:100%;background:#fff;color:var(--ink)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-l)}
 input[type=checkbox]{width:18px;height:18px;accent-color:var(--brand)}
 input.auto{background:#FFF8F3}
-label{display:block;color:var(--mut);font-size:13pt;margin-bottom:2px}
+label{display:block;color:var(--mut);font-size:0.929rem;margin-bottom:2px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 16px}
 .full{grid-column:1/-1}
 .btn{font:inherit;padding:4px 14px;border-radius:6px;border:1px solid var(--ink2);background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
@@ -53,26 +54,26 @@ label{display:block;color:var(--mut);font-size:13pt;margin-bottom:2px}
 .btn:disabled{opacity:.55;cursor:wait}
 .btn.p{background:var(--brand);border-color:var(--brand);color:#fff}.btn.p:hover{background:var(--brand-d);color:#fff}
 .btn.x{border-color:#1E6B3C;color:#1E6B3C}.btn.n{background:var(--navy);border-color:var(--navy);color:#fff}.btn.n:hover{background:var(--navy2);color:#fff}.btn.d{border-color:var(--red);color:var(--red)}
-.btn.s{padding:0 10px;font-size:12.5pt}
+.btn.s{padding:0 10px;font-size:0.893rem}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .row>input,.row>select{width:auto;flex:1;min-width:170px}
 .head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}.head h2{margin:0}
-.err{color:var(--red);font-size:12.5pt;min-height:1.2em}
-.hint{color:var(--mut);font-size:12.5pt}
+.err{color:var(--red);font-size:0.893rem;min-height:1.2em}
+.hint{color:var(--mut);font-size:0.893rem}
 .note{background:var(--brand-l);border-radius:8px;padding:8px 14px;margin-bottom:12px;display:none}
 .etm{background:var(--navy-l);border:1px dashed var(--navy2);border-radius:10px;padding:12px 14px}
-.ev{display:inline-block;padding:0 10px;border-radius:12px;font-size:12.5pt;white-space:nowrap;font-weight:bold}
+.ev{display:inline-block;padding:0 10px;border-radius:12px;font-size:0.893rem;white-space:nowrap;font-weight:bold}
 .ev.discussDate{background:var(--navy-l);color:var(--navy)}.ev.guaranteeDate{background:var(--gold-l);color:#7A5A00}.ev.inquiryDate{background:var(--teal-l);color:var(--teal)}.ev.submitDate{background:var(--grn-l);color:var(--grn)}.ev.openDate{background:var(--brand-l);color:var(--brand-d)}
-.mute{color:var(--mut);font-size:11pt;display:block}
+.mute{color:var(--mut);font-size:0.786rem;display:block}
 .cl{display:grid;grid-template-columns:minmax(0,1fr) 430px;gap:16px;align-items:start}
 .pbar{height:9px;background:#E6E9EF;border-radius:6px;overflow:hidden;min-width:80px}.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--navy),var(--navy2))}.pbar.done i{background:var(--grn)}
 #clOver tr{cursor:pointer}#clOver tr.cur td{background:#FFF1E8!important}
 .clbox{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#FBFCFE}
-.clbox h3{margin:0 0 4px;font-size:14.5pt;color:var(--navy)}
+.clbox h3{margin:0 0 4px;font-size:1.036rem;color:var(--navy)}
 .cli{display:flex;align-items:center;gap:10px;padding:7px 4px;border-bottom:1px dashed var(--line)}
 .cli:last-child{border-bottom:none}.cli span{flex:1}.cli.done span{text-decoration:line-through;color:var(--mut)}
-.cli small{color:var(--grn);font-size:11pt;white-space:nowrap}
-.cli button{background:none;border:none;color:var(--red);font:inherit;cursor:pointer;padding:0 6px;font-size:15pt;line-height:1}
+.cli small{color:var(--grn);font-size:0.786rem;white-space:nowrap}
+.cli button{background:none;border:none;color:var(--red);font:inherit;cursor:pointer;padding:0 6px;font-size:1.071rem;line-height:1}
 .tgls{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 16px;margin-top:12px}
 .tgl{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:0;color:var(--ink);cursor:pointer;background:#fff}
 .tgl input{display:none}.tgl i{position:relative;width:46px;height:24px;border-radius:12px;background:#C9CDD4;flex:none;transition:.2s}
@@ -86,10 +87,44 @@ details{margin-top:8px}summary{cursor:pointer;color:var(--brand-d)}
 #syncBar{margin:12px 20px 0;display:none}
 #toasts{position:fixed;bottom:16px;left:16px;display:flex;flex-direction:column;gap:8px;z-index:9}
 .toast{background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;max-width:420px;border-right:5px solid var(--brand)}
-footer{text-align:center;color:var(--mut);padding:14px;font-size:12pt;border-top:1px solid var(--line);background:#fff;line-height:1.6}
+footer{text-align:center;color:var(--mut);padding:14px;font-size:0.857rem;border-top:1px solid var(--line);background:#fff;line-height:1.6}
 footer b{color:var(--brand-d)}
 @media(max-width:900px){.cl{grid-template-columns:1fr}}
-@media(max-width:700px){main{padding:10px}header{padding:8px 12px}header h1{font-size:16pt}.logo,.logo-img{height:42px}.sep{display:none}.card{padding:12px}#toasts{left:8px;right:8px}}
+.upd{background:var(--navy);color:#fff;padding:6px 14px;display:none;align-items:center;gap:10px;flex-wrap:wrap;font-size:.93rem}.upd.on{display:flex}.upd .btn{padding:0 10px}
+.sync-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#C9CDD4;margin-inline-end:6px;vertical-align:middle}.sync-dot.ok{background:#3BB273}.sync-dot.busy{background:#F2B33D}.sync-dot.err{background:var(--red)}
+#syncChip{font-size:.8rem;color:var(--mut);white-space:nowrap;cursor:pointer}
+table.editing td{background:#FFFDF6!important}table.editing input,table.editing select{padding:2px 4px;min-width:90px;font-size:.9rem}table.editing td.nm input{min-width:220px}
+.edbar{display:none;position:sticky;top:0;z-index:5;background:var(--gold-l);border:1px solid #E8D29A;border-radius:8px;padding:6px 12px;margin-bottom:10px;align-items:center;gap:8px;flex-wrap:wrap}.edbar.on{display:flex}
+@media(max-width:700px){main{padding:8px}header{padding:6px 10px;gap:8px;flex-wrap:nowrap}header>div{min-width:0}header h1{font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}header small{display:none}.logo,.logo-img{height:26px;flex:none}.sep{display:none}#syncChip{font-size:0}
+  .upd{padding:4px 10px;font-size:.82rem}.toast{padding:6px 10px;font-size:.85rem;line-height:1.4}.card{padding:10px;border-radius:10px;margin-bottom:12px}.card h2{font-size:1.05rem}.card h2::after{display:none}#toasts{left:8px;right:8px;bottom:8px}.toast{max-width:none}
+  .bell{padding:2px 8px;flex:none;font-size:.9rem}.bell span{margin-inline-start:4px;padding:0 6px}nav{padding:0 4px}nav button{padding:9px 11px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}.stat{padding:6px 10px;font-size:.85rem;border-top-width:4px}.stat b{font-size:1.5rem}
+  .row{gap:6px}.row>input,.row>select{min-width:0;flex-basis:100%}.head{margin-bottom:8px}.head>.row{width:100%}
+  .grid{grid-template-columns:1fr;gap:8px}.btn{padding:3px 10px}
+  td.nm{min-width:0}.cl{gap:10px}.clbox{padding:10px}
+  /* tables become cards on phones */
+  table.rt,table.rt tbody,table.rt tr,table.rt td{display:block;width:100%}
+  table.rt thead{display:none}
+  table.rt tr{border:1px solid var(--line);border-inline-start:4px solid var(--navy);border-radius:10px;margin-bottom:8px;background:#fff;padding:4px 8px;overflow:hidden}
+  table.rt tbody tr:nth-child(even) td,table.rt tbody tr:hover td{background:none}
+  table.rt td{border:none;border-bottom:1px dashed var(--line);display:flex;gap:8px;align-items:center;justify-content:space-between;text-align:start;padding:3px 2px;line-height:1.4}
+  table.rt td:last-child{border-bottom:none}
+  table.rt td[data-l]::before{content:attr(data-l);color:var(--mut);font-size:.82rem;flex:none;max-width:40%}
+  table.rt td>*:not(.row){text-align:end}
+  table.rt td.nm{font-weight:bold;color:var(--navy)}
+  table.rt td.hint{justify-content:center}
+  table.rt td .row{justify-content:flex-end!important;width:100%}
+  table.rt.editing td{flex-wrap:wrap}table.rt.editing input,table.rt.editing select{flex:1;min-width:0!important}
+  #clOver tr.cur{border-inline-start-color:var(--brand)}
+  #listTbl:not(.editing) tr{display:grid;grid-template-columns:1fr 1fr;column-gap:12px;padding:6px 10px}
+  #listTbl:not(.editing) td{display:block;text-align:start;padding:4px 0}
+  #listTbl:not(.editing) td[data-l]::before{display:block;max-width:none;font-size:.78rem;line-height:1.2}
+  #listTbl:not(.editing) td>*:not(.row){text-align:start}
+  #listTbl:not(.editing) td:first-child{display:none}
+  #listTbl:not(.editing) td.nm,#listTbl:not(.editing) td:last-child,#listTbl:not(.editing) td.hint{grid-column:1/-1}
+  #listTbl:not(.editing) td.nm::before{display:none}
+  .modal>div{padding:14px}
+}
 </style>
 </head>
 <body>
@@ -98,7 +133,7 @@ footer b{color:var(--brand-d)}
   <img class="logo-img" id="hLogo" alt="شعار الشركة">
   <div class="sep"></div>
   <div><h1 id="hCompany"></h1><small id="hTitle"></small></div>
-  <button class="bell" onclick="go('dash')">التنبيهات<span id="bellCount">0</span></button>
+  <span id="syncChip" onclick="go('set')" title="المزامنة بين الأجهزة"></span><button class="bell" onclick="go('dash')">التنبيهات<span id="bellCount">0</span></button>
 </header>
 <nav id="nav">
   <button data-p="dash" class="on">لوحة المتابعة</button>
@@ -107,6 +142,7 @@ footer b{color:var(--brand-d)}
   <button data-p="att">المرفقات</button>
   <button data-p="set">الإعدادات</button>
 </nav>
+<div class="upd" id="updBar"></div>
 <div class="note" id="syncBar">ملف الإكسيل المرتبط يحتاج تأكيد الإذن لتحديثه تلقائياً. <button class="btn s p" onclick="syncNow(true)">تفعيل المزامنة</button></div>
 <main>
 
@@ -115,12 +151,12 @@ footer b{color:var(--brand-d)}
   <div class="card">
     <div class="head"><h2>المواعيد القادمة خلال 30 يوماً</h2>
       <div class="row"><button class="btn x" onclick="exportUpcoming()">تصدير المواعيد Excel</button><button class="btn n" onclick="exportExcel(tenders)">تصدير بيان المنافسات Excel</button></div></div>
-    <div class="tw"><table><thead><tr><th>الإجراء</th><th>رقم المنافسة</th><th>اسم المنافسة</th><th>الجهة</th><th>اليوم</th><th>التاريخ ميلادي</th><th>هجري</th><th>الوقت</th><th>المتبقي</th></tr></thead><tbody id="upBody"></tbody></table></div>
+    <div class="tw"><table class="rt"><thead><tr><th>الإجراء</th><th>رقم المنافسة</th><th>اسم المنافسة</th><th>الجهة</th><th>اليوم</th><th>التاريخ ميلادي</th><th>هجري</th><th>الوقت</th><th>المتبقي</th></tr></thead><tbody id="upBody"></tbody></table></div>
   </div>
   <div class="card">
     <div class="head"><h2>قائمة المهام (Check list)</h2><span class="hint">اضغط على أي منافسة لعرض مهامها والتأشير عليها</span></div>
     <div class="cl">
-      <div class="tw"><table><thead><tr><th>رقم المنافسة</th><th>اسم المنافسة</th><th>الإنجاز</th><th>المهمة التالية</th><th>فتح المظاريف</th></tr></thead><tbody id="clOver"></tbody></table></div>
+      <div class="tw"><table class="rt"><thead><tr><th>رقم المنافسة</th><th>اسم المنافسة</th><th>الإنجاز</th><th>المهمة التالية</th><th>فتح المظاريف</th></tr></thead><tbody id="clOver"></tbody></table></div>
       <div class="clbox" id="clBox"></div>
     </div>
   </div>
@@ -128,14 +164,15 @@ footer b{color:var(--brand-d)}
 
 <section class="page" id="p-list">
   <div class="card">
-    <div class="head"><h2>بيان المنافسات تحت الدراسة</h2><button class="btn n" onclick="exportExcel(filtered())">تصدير المعروض Excel</button></div>
+    <div class="head"><h2>بيان المنافسات تحت الدراسة</h2><div class="row"><button class="btn" id="edBtn" onclick="startTableEdit()">✏️ تعديل الجدول</button><button class="btn n" onclick="exportExcel(filtered())">تصدير Excel</button><button class="btn d" onclick="exportPDF(filtered())">تصدير PDF</button></div></div>
+    <div class="edbar" id="edBar"><b>وضع تعديل الجدول</b><span class="hint">عدّل الخانات مباشرة ثم اضغط حفظ</span><span style="flex:1"></span><button class="btn p" onclick="saveTableEdit()">حفظ التعديلات</button><button class="btn" onclick="cancelTableEdit()">إلغاء</button></div>
     <div class="row" style="margin-bottom:12px">
       <input id="fSearch" placeholder="بحث بالاسم أو الرقم أو الجهة">
       <select id="fStatus"><option value="">كل حالات الشراء</option></select>
       <label style="margin:0;display:flex;gap:6px;align-items:center"><input type="checkbox" id="fHide">إخفاء المنتهية</label>
       <button class="btn" onclick="openForm()">إضافة منافسة</button>
     </div>
-    <div class="tw"><table>
+    <div class="tw"><table class="rt" id="listTbl">
       <thead><tr><th class="sl">م</th><th>الجهة المالكة</th><th>رقم المنافسة</th><th>اسم المنافسة</th><th>القيمة</th><th class="sl">موقف الشراء</th><th class="gd">المناقشة</th><th class="gd">طلب الضمان</th><th class="gr">التقديم</th><th class="or">فتح المظاريف</th><th class="sl">آخر موعد للاستفسارات</th><th>إجراءات</th></tr></thead>
       <tbody id="listBody"></tbody>
     </table></div>
@@ -195,12 +232,33 @@ footer b{color:var(--brand-d)}
       <span class="hint" id="selCount"></span>
     </div>
     <div class="hint" style="margin-bottom:10px">إذا لم تحدد شيئاً يتم إصدار الرابط أو الملف المضغوط لكل مرفقات المنافسة. الرابط يرفع نسخة من الملفات على خدمة مشاركة ملفات خارجية (Gofile)، وأي شخص معه الرابط يقدر يفتحه، فلا تستخدمه للمستندات السرية.</div>
-    <div class="tw"><table><thead><tr><th><input type="checkbox" id="selAll" aria-label="تحديد الكل"></th><th>النوع</th><th>الاسم</th><th>الحجم</th><th>تاريخ الإرفاق</th><th>إجراءات</th></tr></thead><tbody id="attBody"></tbody></table></div>
+    <div class="tw"><table class="rt"><thead><tr><th><input type="checkbox" id="selAll" aria-label="تحديد الكل"></th><th>النوع</th><th>الاسم</th><th>الحجم</th><th>تاريخ الإرفاق</th><th>إجراءات</th></tr></thead><tbody id="attBody"></tbody></table></div>
     <div id="linksHist" style="margin-top:14px"></div>
   </div>
 </section>
 
 <section class="page" id="p-set">
+  <div class="card">
+    <h2>المزامنة التلقائية بين الكمبيوتر والجوال</h2>
+    <p class="hint" style="margin-top:0">اربط الكمبيوتر والجوال بنفس الحساب، وأي إضافة أو تعديل أو حذف في أحدهما يظهر في الآخر تلقائياً خلال دقيقة تقريباً (يشمل المنافسات وقوائم المهام والإعدادات، أما الملفات المرفقة فتبقى على كل جهاز). البيانات تُحفظ في مستودع خاص (Private) على حسابك في GitHub ولا يراها غيرك.</p>
+    <details id="syncHelp"><summary>طريقة الربط لأول مرة (دقيقتان)</summary>
+      <ol class="hint" style="margin:6px 0">
+        <li>افتح <a href="#" onclick="openUrl('https://github.com/settings/tokens/new?scopes=repo&amp;description=tenders-sync');return false">صفحة إنشاء رمز GitHub</a> وسجّل دخولك.</li>
+        <li>من Expiration اختر <b>No expiration</b>، واترك خيار <b>repo</b> محدداً، ثم اضغط <b>Generate token</b> في أسفل الصفحة.</li>
+        <li>انسخ الرمز (يبدأ بـ ghp_) والصقه في الخانة التالية، ثم اضغط "ربط وتفعيل".</li>
+        <li>كرر الخطوة 3 بنفس الرمز على الجهاز الآخر (أرسله لنفسك على واتساب مثلاً).</li>
+      </ol></details>
+    <div class="grid" style="margin-top:8px">
+      <div><label>رمز GitHub (Token)</label><input id="ghToken" type="password" dir="ltr" autocomplete="off" placeholder="ghp_..."></div>
+      <div><label>اسم مستودع البيانات</label><input id="ghRepo" dir="ltr" placeholder="tenders-data"></div>
+    </div>
+    <div class="row" style="margin-top:8px"><button class="btn p" onclick="cloudConnect()">ربط وتفعيل</button><button class="btn" onclick="cloudSync(true)">مزامنة الآن</button><button class="btn d" onclick="cloudDisconnect()">إلغاء الربط على هذا الجهاز</button></div>
+    <p id="cloudState" class="hint" style="margin-bottom:0"></p>
+  </div>
+  <div class="card">
+    <h2>حجم الخط</h2>
+    <div class="row"><select id="fontSel" style="max-width:220px"></select><span class="hint">يُحفظ لهذا الجهاز فقط، فتقدر تختار حجماً للكمبيوتر وحجماً آخر للجوال.</span></div>
+  </div>
   <div class="card">
     <h2>الحساب التلقائي للمواعيد</h2>
     <p class="hint" style="margin-top:0">تُحسب المواعيد من تاريخ التقديم (أو من تاريخ فتح المظاريف إذا لم يُحدد تاريخ التقديم). إذا كان طلب الضمان قبل المناقشة بـ 14 يوماً، فهو قبل التقديم بـ 19 يوماً.</p>
@@ -256,10 +314,11 @@ footer b{color:var(--brand-d)}
 </main>
 <footer id="foot"></footer>
 <div id="toasts"></div>
+<div class="modal" id="pwModal"><div style="max-width:380px"><h3>كلمة مرور التعديل</h3><input id="pwIn" type="password" dir="ltr" autocomplete="off"><div class="err" id="pwErr"></div><div class="row"><button class="btn p" onclick="pwOk()">تأكيد</button><button class="btn" onclick="pwClose()">إلغاء</button></div></div></div>
 <div class="modal" id="linkModal"><div><h3 id="lmTitle">رابط المرفقات</h3><input id="lmUrl" dir="ltr" readonly onclick="this.select()"><p class="hint" id="lmInfo"></p><div class="row"><button class="btn n" onclick="copyTxt($('lmUrl').value)">نسخ الرابط</button><button class="btn x" onclick="lmWA()">واتساب</button><button class="btn" onclick="lmMail()">إيميل</button><button class="btn" onclick="openUrl($('lmUrl').value)">فتح</button><button class="btn d" onclick="$('linkModal').classList.remove('on')">إغلاق</button></div></div></div>
 
 <script>
-const APP_VERSION='1.4.0',DEVELOPER='Mahmoud Elsayed';
+const APP_VERSION='1.5.0',DEVELOPER='Mahmoud Elsayed';
 const MARK_PATHS=c=>`<defs><clipPath id="mc"><rect x="200" y="200" width="1200" height="300"/></clipPath></defs><g clip-path="url(#mc)" fill="none" stroke="${c}" stroke-width="72" stroke-linejoin="round" stroke-linecap="round"><path d="M262 545 L350 290 L483 462 L617 290 L690 500 L846 290 L955 452 Q985 498 1060 465 L1306 465 L1306 370 L1110 370"/><path d="M1110 465 A96.5 96.5 0 0 1 1110 272 L1305 272"/></g>`;
 const LOGO_TEXT=`<text x="790" y="655" text-anchor="middle" direction="rtl" font-family="Sakkal Majalla, Traditional Arabic, Tahoma" font-size="120" font-weight="bold" fill="#1D1D1B">المجال العربي</text>`;
 const STATUSES=['جاري الشراء','تم الشراء','لم يتم الشراء','تم التقديم','مستبعدة'];
@@ -277,7 +336,7 @@ let settings=Object.assign({},DEF,store.get('settings_mag',{}));
 let notified=store.get('notified',{});
 function migrate(){tenders.forEach(t=>{if(t.status==='جاري الدراسة')t.status='جاري الشراء'});settings.notifyOff=Object.assign({},settings.notifyOff&&typeof settings.notifyOff==='object'?settings.notifyOff:{})}
 migrate();
-const saveT=()=>{store.set('tenders',tenders);store.set('lastUpdate',new Date().toISOString());queueSync()};
+const saveT=()=>{trackChanges();store.set('tenders',tenders);store.set('lastUpdate',new Date().toISOString());queueSync();cloudQueue()};
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -299,7 +358,7 @@ const fmtN=n=>(n||n===0)&&n!==''?Number(n).toLocaleString('en-US'):'';
 const fmtSize=b=>!b?'—':b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';
 function badge(d){if(d===null)return '';if(d<0)return '<span class="b x">انتهى</span>';if(d===0)return '<span class="b r">اليوم</span>';const c=d<=3?'r':d<=7?'a':'g';return `<span class="b ${c}">${d} يوم</span>`}
 function stBadge(s){const c={'تم الشراء':'g','جاري الشراء':'a','لم يتم الشراء':'r','تم التقديم':'g','مستبعدة':'x'}[s]||'x';return `<span class="b ${c}">${esc(s)}</span>`}
-function toast(msg){const e=document.createElement('div');e.className='toast';e.textContent=msg;$('toasts').appendChild(e);setTimeout(()=>e.remove(),7000)}
+function toast(msg){const box=$('toasts');while(box.children.length>=3)box.firstChild.remove();const e=document.createElement('div');e.className='toast';e.textContent=msg;e.onclick=()=>e.remove();box.appendChild(e);setTimeout(()=>e.remove(),innerWidth<700?4500:7000)}
 function tint(hex,p){const n=parseInt(hex.slice(1),16);return '#'+[n>>16,n>>8&255,n&255].map(x=>Math.round(x+(255-x)*p).toString(16).padStart(2,'0')).join('')}
 function shade(hex,p){const n=parseInt(hex.slice(1),16);return '#'+[n>>16,n>>8&255,n&255].map(x=>Math.round(x*(1-p)).toString(16).padStart(2,'0')).join('')}
 const argb=h=>'FF'+h.replace('#','').toUpperCase();
@@ -324,7 +383,7 @@ $('t_auto').addEventListener('change',()=>{markAuto();autoCalc()});
 ['t_discussDate','t_guaranteeDate'].forEach(i=>$(i).addEventListener('input',()=>{if($('t_auto').checked){$('t_auto').checked=false;markAuto();toast('تم إيقاف الحساب التلقائي لهذه المنافسة لأنك عدّلت التاريخ يدوياً')}}));
 function recalcAll(){if(!confirm(`سيتم إعادة حساب تاريخ المناقشة (قبل التقديم بـ ${DB_()} أيام) وطلب الضمان (قبل التقديم بـ ${GB_()} يوماً) لكل المنافسات الحالية. متابعة؟`))return;let n=0;tenders.forEach(t=>{const c=calcDates(t.submitDate||t.openDate);if(c){Object.assign(t,c);n++}});saveT();renderAll();toast(`تمت إعادة حساب ${n} منافسة`)}
 
-function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id==='p-'+p));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));if(p==='form'&&!$('t_id').value&&!$('t_name').value)openForm(null,true);if(p==='att')renderAtt();if(p==='set'){loadSettings();updSyncUI()}if(p!=='att')$('attNote').style.display='none';window.scrollTo(0,0)}
+function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id==='p-'+p));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));if(p==='form'&&!$('t_id').value&&!$('t_name').value)openForm(null,true);if(p==='att')renderAtt();if(p==='set'){loadSettings();updSyncUI();cloudUI()}if(p!=='att')$('attNote').style.display='none';window.scrollTo(0,0)}
 $('nav').onclick=e=>{if(e.target.dataset.p)go(e.target.dataset.p)};
 
 function applyBrand(){const r=document.documentElement.style,c=settings.color;r.setProperty('--brand',c);r.setProperty('--brand-d',shade(c,.18));r.setProperty('--brand-l',tint(c,.88));
@@ -340,7 +399,7 @@ function renderDash(){
   const act=tenders.filter(t=>!(dl(t.openDate)<0));let cd=0,ct=0;act.forEach(t=>{const c=getCL(t);ct+=c.length;cd+=c.filter(x=>x.done).length});
   $('stats').innerHTML=`<div class="stat">إجمالي المنافسات<b>${tenders.length}</b></div><div class="stat r">فتح مظاريف خلال 7 أيام<b>${open7}</b></div><div class="stat a">مواعيد خلال 7 أيام<b>${all.filter(e=>e.d>=0&&e.d<=7).length}</b></div><div class="stat g">إنجاز المهام (المنافسات القائمة)<b>${ct?Math.round(cd/ct*100):0}%</b></div><div class="stat x">منافسات انتهى فتحها<b>${tenders.filter(t=>dl(t.openDate)<0).length}</b></div>`;
   const up=upcoming();
-  $('upBody').innerHTML=up.length?up.map(e=>`<tr><td><span class="ev ${e.key}">${e.label}</span>${settings.notifyOff[e.key]?'<span class="mute">التنبيه موقوف</span>':''}</td><td>${esc(e.t.number)}</td><td class="nm">${esc(e.t.name)}</td><td>${esc(e.t.owner)}</td><td>${dayName(e.date)}</td><td>${fmtG(e.date)}</td><td>${hijri(e.date)}</td><td>${fmtTime(e.time)}</td><td>${badge(e.d)}</td></tr>`).join(''):'<tr><td colspan="9" class="hint">لا توجد مواعيد خلال الثلاثين يوماً القادمة</td></tr>';
+  $('upBody').innerHTML=up.length?up.map(e=>`<tr><td data-l="الإجراء"><span><span class="ev ${e.key}">${e.label}</span>${settings.notifyOff[e.key]?'<span class="mute">التنبيه موقوف</span>':''}</span></td><td data-l="رقم المنافسة">${esc(e.t.number)}</td><td class="nm" data-l="اسم المنافسة">${esc(e.t.name)}</td><td data-l="الجهة">${esc(e.t.owner)}</td><td data-l="اليوم">${dayName(e.date)}</td><td data-l="التاريخ">${fmtG(e.date)}</td><td data-l="هجري">${hijri(e.date)}</td><td data-l="الوقت">${fmtTime(e.time)}</td><td data-l="المتبقي">${badge(e.d)}</td></tr>`).join(''):'<tr><td colspan="9" class="hint">لا توجد مواعيد خلال الثلاثين يوماً القادمة</td></tr>';
   const mx=Math.max(...parseLeads(),0);$('bellCount').textContent=all.filter(e=>e.d>=0&&e.d<=mx&&!settings.notifyOff[e.key]).length;
   renderCL();
 }
@@ -353,7 +412,7 @@ function clStats(t){const c=getCL(t),d=c.filter(x=>x.done).length;return{c,d,n:c
 function renderCL(){
   const L=[...tenders].sort((a,b)=>{const ea=dl(a.openDate)<0,eb=dl(b.openDate)<0;if(ea!==eb)return ea?1:-1;return (a.openDate||'9')>(b.openDate||'9')?1:-1});
   if(!L.find(t=>t.id===clCur))clCur=(L[0]||{}).id||'';
-  $('clOver').innerHTML=L.length?L.map(t=>{const s=clStats(t);return `<tr data-id="${t.id}" class="${t.id===clCur?'cur':''}"><td>${esc(t.number)}</td><td class="nm">${esc(t.name)}</td><td style="min-width:120px"><div class="pbar ${s.p===100?'done':''}"><i style="width:${s.p}%"></i></div><small>${s.d} من ${s.n}</small></td><td class="nm" style="min-width:150px">${s.p===100?'<span class="b g">مكتملة</span>':esc(s.next)}</td><td>${fmtG(t.openDate)}<br>${badge(dl(t.openDate))}</td></tr>`}).join(''):'<tr><td colspan="5" class="hint">لا توجد منافسات</td></tr>';
+  $('clOver').innerHTML=L.length?L.map(t=>{const s=clStats(t);return `<tr data-id="${t.id}" class="${t.id===clCur?'cur':''}"><td data-l="رقم المنافسة">${esc(t.number)}</td><td class="nm" data-l="اسم المنافسة">${esc(t.name)}</td><td data-l="الإنجاز" style="min-width:120px"><span style="flex:1"><div class="pbar ${s.p===100?'done':''}"><i style="width:${s.p}%"></i></div><small>${s.d} من ${s.n}</small></span></td><td data-l="المهمة التالية" style="min-width:150px">${s.p===100?'<span class="b g">مكتملة</span>':'<span>'+esc(s.next)+'</span>'}</td><td data-l="فتح المظاريف"><span>${fmtG(t.openDate)} ${badge(dl(t.openDate))}</span></td></tr>`}).join(''):'<tr><td colspan="5" class="hint">لا توجد منافسات</td></tr>';
   const t=tenders.find(x=>x.id===clCur);
   if(!t){$('clBox').innerHTML='<p class="hint">اختر منافسة</p>';return}
   const s=clStats(t);
@@ -368,15 +427,37 @@ $('clBox').addEventListener('keydown',e=>{if(e.target.id==='clNew'&&e.key==='Ent
 function clAdd(){const v=($('clNew')||{}).value;if(!v||!v.trim())return;const t=tenders.find(x=>x.id===clCur);ensureCL(t).push({id:'c'+Date.now(),text:v.trim(),done:false});saveT();renderDash();setTimeout(()=>$('clNew')&&$('clNew').focus(),0)}
 
 function filtered(){const q=$('fSearch').value.trim(),s=$('fStatus').value,h=$('fHide').checked;return tenders.filter(t=>(!q||[t.name,t.number,t.owner].join(' ').includes(q))&&(!s||t.status===s)&&(!h||!(dl(t.openDate)<0))).sort((a,b)=>(a.openDate||'9')>(b.openDate||'9')?1:-1)}
-function renderList(){
-  const L=filtered();
-  $('listBody').innerHTML=L.length?L.map((t,i)=>`<tr><td>${i+1}</td><td>${esc(t.owner)}</td><td>${esc(t.number)}</td><td class="nm">${esc(t.name)}</td><td>${fmtN(t.value)}</td><td>${stBadge(t.status)}</td><td>${fmtG(t.discussDate)}<br>${badge(dl(t.discussDate))}</td><td>${fmtG(t.guaranteeDate)}</td><td>${dayName(t.submitDate)}<br>${fmtG(t.submitDate)}<br>${fmtTime(t.submitTime)}</td><td>${dayName(t.openDate)}<br>${fmtG(t.openDate)} ${fmtTime(t.openTime)}<br>${badge(dl(t.openDate))}</td><td>${fmtG(t.inquiryDate)}<br>${badge(dl(t.inquiryDate))}</td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="edit" data-id="${t.id}">تعديل</button><button class="btn s" data-a="att" data-id="${t.id}">المرفقات</button><button class="btn s d" data-a="del" data-id="${t.id}">حذف</button></div></td></tr>`).join(''):'<tr><td colspan="12" class="hint">لا توجد منافسات مطابقة</td></tr>';
+let editMode=false;
+const PW='M2026M';let pwCb=null;
+const unlocked=()=>{try{return sessionStorage.getItem('pwOk')==='1'}catch(e){return window._pwOk}};
+function requirePw(cb){if(unlocked())return cb();pwCb=cb;$('pwIn').value='';$('pwErr').textContent='';$('pwModal').classList.add('on');setTimeout(()=>$('pwIn').focus(),50)}
+function pwOk(){if($('pwIn').value!==PW){$('pwErr').textContent='كلمة المرور غير صحيحة';return}try{sessionStorage.setItem('pwOk','1')}catch(e){window._pwOk=true}$('pwModal').classList.remove('on');const c=pwCb;pwCb=null;c&&c()}
+function pwClose(){pwCb=null;$('pwModal').classList.remove('on')}
+$('pwIn').addEventListener('keydown',e=>{if(e.key==='Enter')pwOk()});
+function startTableEdit(){requirePw(()=>{if(!filtered().length){toast('لا توجد منافسات للتعديل');return}editMode=true;$('edBar').classList.add('on');$('edBtn').style.display='none';renderList(true)})}
+function cancelTableEdit(){editMode=false;$('edBar').classList.remove('on');$('edBtn').style.display='';renderList()}
+function saveTableEdit(){
+  const rows=[...document.querySelectorAll('#listBody tr[data-id]')],seen={};let n=0,err='';
+  rows.forEach(tr=>{const v={};tr.querySelectorAll('[data-f]').forEach(i=>v[i.dataset.f]=i.value.trim());
+    if(!v.owner||!v.number||!v.name||!v.openDate)err='الجهة ورقم المنافسة واسمها وتاريخ الفتح حقول إلزامية في كل صف';
+    if(seen[v.number]||tenders.some(t=>t.number===v.number&&t.id!==tr.dataset.id&&!rows.some(r=>r.dataset.id===t.id)))err=`رقم المنافسة ${v.number} مكرر`;seen[v.number]=1});
+  if(err){toast(err);return}
+  rows.forEach(tr=>{const t=tenders.find(x=>x.id===tr.dataset.id);if(!t)return;let ch=false;
+    tr.querySelectorAll('[data-f]').forEach(i=>{const f=i.dataset.f;let val=i.value.trim();if(f==='value')val=val===''?'':Number(val);if(String(t[f]??'')!==String(val)){t[f]=val;ch=true}});
+    if(ch){n++}});
+  if(n)saveT();cancelTableEdit();renderAll();checkReminders();toast(n?`تم حفظ التعديلات على ${n} منافسة`:'لم يتم تغيير أي بيانات')}
+function renderList(force){
+  if(editMode&&!force&&$('listBody').querySelector('[data-f]'))return;
+  const L=filtered();$('listTbl').classList.toggle('editing',editMode);
+  const ip=(t,f,type,extra)=>`<input data-f="${f}" type="${type||'text'}" value="${esc(t[f]??'')}" ${extra||''}>`;
+  if(editMode){$('listBody').innerHTML=L.map((t,i)=>`<tr data-id="${t.id}"><td data-l="م">${i+1}</td><td data-l="الجهة المالكة">${ip(t,'owner')}</td><td data-l="رقم المنافسة">${ip(t,'number','text','inputmode="numeric" dir="ltr"')}</td><td class="nm" data-l="اسم المنافسة">${ip(t,'name')}</td><td data-l="القيمة">${ip(t,'value','number','min="0"')}</td><td data-l="موقف الشراء"><select data-f="status">${STATUSES.map(s=>`<option ${s===t.status?'selected':''}>${s}</option>`).join('')}</select></td><td data-l="المناقشة">${ip(t,'discussDate','date')}</td><td data-l="طلب الضمان">${ip(t,'guaranteeDate','date')}</td><td data-l="التقديم">${ip(t,'submitDate','date')}${ip(t,'submitTime','time')}</td><td data-l="فتح المظاريف">${ip(t,'openDate','date')}${ip(t,'openTime','time')}</td><td data-l="الاستفسارات">${ip(t,'inquiryDate','date')}</td><td data-l="ملاحظات">${ip(t,'notes')}</td></tr>`).join('');return}
+  $('listBody').innerHTML=L.length?L.map((t,i)=>`<tr><td data-l="م">${i+1}</td><td data-l="الجهة المالكة">${esc(t.owner)}</td><td data-l="رقم المنافسة">${esc(t.number)}</td><td class="nm" data-l="اسم المنافسة">${esc(t.name)}</td><td data-l="القيمة">${fmtN(t.value)}</td><td data-l="موقف الشراء">${stBadge(t.status)}</td><td data-l="المناقشة"><span>${fmtG(t.discussDate)} ${badge(dl(t.discussDate))}</span></td><td data-l="طلب الضمان">${fmtG(t.guaranteeDate)}</td><td data-l="التقديم"><span>${dayName(t.submitDate)} ${fmtG(t.submitDate)} ${fmtTime(t.submitTime)}</span></td><td data-l="فتح المظاريف"><span>${dayName(t.openDate)} ${fmtG(t.openDate)} ${fmtTime(t.openTime)} ${badge(dl(t.openDate))}</span></td><td data-l="الاستفسارات"><span>${fmtG(t.inquiryDate)} ${badge(dl(t.inquiryDate))}</span></td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="edit" data-id="${t.id}">تعديل</button><button class="btn s" data-a="att" data-id="${t.id}">المرفقات</button><button class="btn s d" data-a="del" data-id="${t.id}">حذف</button></div></td></tr>`).join(''):'<tr><td colspan="12" class="hint">لا توجد منافسات مطابقة</td></tr>';
 }
 $('listBody').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const id=b.dataset.id;
-  if(b.dataset.a==='edit')openForm(id);
+  if(b.dataset.a==='edit')requirePw(()=>openForm(id));
   if(b.dataset.a==='att')openAtt(id);
-  if(b.dataset.a==='del'){const t=tenders.find(x=>x.id===id);if(!confirm(`حذف المنافسة "${t.name}" ومرفقاتها؟`))return;tenders=tenders.filter(x=>x.id!==id);saveT();try{for(const f of await listFiles(id))await delFile(f.id)}catch(er){}renderAll();toast('تم حذف المنافسة')}};
-['fSearch','fStatus','fHide'].forEach(i=>$(i).addEventListener('input',renderList));
+  if(b.dataset.a==='del')requirePw(async()=>{const t=tenders.find(x=>x.id===id);if(!confirm(`حذف المنافسة "${t.name}" ومرفقاتها؟`))return;tenders=tenders.filter(x=>x.id!==id);saveT();try{for(const f of await listFiles(id))await delFile(f.id)}catch(er){}renderAll();toast('تم حذف المنافسة')})};
+['fSearch','fStatus','fHide'].forEach(i=>$(i).addEventListener('input',()=>{if(editMode)return;renderList()}));
 
 const FIELDS=['owner','number','name','value','status','discussDate','guaranteeDate','inquiryDate','submitDate','submitTime','openDate','openTime','notes'];
 function openForm(id,silent,pre){const t=id?tenders.find(x=>x.id===id):Object.assign({status:'جاري الشراء'},pre||{});$('t_id').value=id||'';FIELDS.forEach(f=>$('t_'+f).value=t[f]??'');
@@ -442,7 +523,7 @@ async function renderFiles(){
   renderHist(t);
   if(!id){curFiles=[];$('attBody').innerHTML='<tr><td colspan="6" class="hint">اختر منافسة لعرض مرفقاتها وإضافة ملفات أو روابط</td></tr>';updSel();return}
   curFiles=(await listFiles(id)).sort((a,b)=>b.date-a.date);
-  $('attBody').innerHTML=curFiles.length?curFiles.map(f=>{const lk=f.kind==='link';return `<tr><td><input type="checkbox" class="sel" value="${f.id}" aria-label="تحديد"></td><td>${lk?'<span class="b g">رابط</span>':'<span class="b x">ملف</span>'}</td><td class="nm">${lk?`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name)}</a>`:esc(f.name)}</td><td>${lk?'—':fmtSize(f.size)}</td><td>${new Date(f.date).toLocaleString('ar-EG')}</td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="open" data-id="${f.id}">${lk?'فتح':'تنزيل'}</button>${lk?'':`<button class="btn s" data-a="link" data-id="${f.id}">رابط</button>`}<button class="btn s" data-a="share" data-id="${f.id}">مشاركة</button><button class="btn s d" data-a="rm" data-id="${f.id}">حذف</button></div></td></tr>`}).join(''):'<tr><td colspan="6" class="hint">لا توجد مرفقات بعد. أضف ملفات أو روابط من الأعلى</td></tr>';
+  $('attBody').innerHTML=curFiles.length?curFiles.map(f=>{const lk=f.kind==='link';return `<tr><td data-l="تحديد"><input type="checkbox" class="sel" value="${f.id}" aria-label="تحديد"></td><td data-l="النوع">${lk?'<span class="b g">رابط</span>':'<span class="b x">ملف</span>'}</td><td class="nm" data-l="الاسم">${lk?`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name)}</a>`:'<span>'+esc(f.name)+'</span>'}</td><td data-l="الحجم">${lk?'—':fmtSize(f.size)}</td><td data-l="تاريخ الإرفاق">${new Date(f.date).toLocaleString('ar-EG')}</td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="open" data-id="${f.id}">${lk?'فتح':'تنزيل'}</button>${lk?'':`<button class="btn s" data-a="link" data-id="${f.id}">رابط</button>`}<button class="btn s" data-a="share" data-id="${f.id}">مشاركة</button><button class="btn s d" data-a="rm" data-id="${f.id}">حذف</button></div></td></tr>`}).join(''):'<tr><td colspan="6" class="hint">لا توجد مرفقات بعد. أضف ملفات أو روابط من الأعلى</td></tr>';
   updSel();
 }
 function selected(){const ids=[...document.querySelectorAll('.sel:checked')].map(x=>x.value);return curFiles.filter(f=>ids.includes(f.id))}
@@ -544,20 +625,20 @@ function enableNotif(){const LN=NP('LocalNotifications');if(LN){LN.requestPermis
   if(!('Notification'in window)){$('notifState').textContent='الجهاز لا يدعم الإشعارات هنا';return}Notification.requestPermission().then(p=>{$('notifState').textContent=p==='granted'?'الإشعارات مفعلة':'تم رفض الإذن'})}
 
 function renderToggles(){$('notifToggles').innerHTML=EV.map(e=>`<label class="tgl"><span>${e[2]}</span><input type="checkbox" data-k="${e[0]}" ${settings.notifyOff[e[0]]?'':'checked'}><i></i></label>`).join('')}
-$('notifToggles').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;if(e.target.checked)delete settings.notifyOff[k];else settings.notifyOff[k]=true;store.set('settings_mag',settings);renderDash();scheduleNative();toast(`${EV.find(x=>x[0]===k)[2]}: التنبيه ${e.target.checked?'مفعّل':'موقوف'}`)});
+$('notifToggles').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;if(e.target.checked)delete settings.notifyOff[k];else settings.notifyOff[k]=true;saveS();renderDash();scheduleNative();toast(`${EV.find(x=>x[0]===k)[2]}: التنبيه ${e.target.checked?'مفعّل':'موقوف'}`)});
 function loadSettings(){SKEYS.forEach(k=>$('s_'+k).value=settings[k]??'');renderToggles();$('setErr').textContent='';$('notifState').textContent=('Notification'in window&&Notification.permission==='granted')?'الإشعارات مفعلة':''}
 function saveSettings(){
   const leads=$('s_leads').value.trim();if(leads&&!/^[\d\s,،]+$/.test(leads)){$('setErr').textContent='أيام التنبيه أرقام فقط مفصولة بفاصلة مثل 7,3,1,0';return}
   for(const k of ['discussBefore','guaranteeBefore']){const v=$('s_'+k).value.trim();if(v!==''&&!(/^\d+$/.test(v)&&+v<=90)){$('setErr').textContent='عدد أيام الحساب التلقائي يجب أن يكون رقماً صحيحاً من 0 إلى 90';return}}
   SKEYS.forEach(k=>settings[k]=$('s_'+k).value.trim()||DEF[k]);
   const f=$('s_logo').files[0];
-  const done=()=>{store.set('settings_mag',settings);applyBrand();renderAll();queueSync();toast('تم حفظ الإعدادات')};
+  const done=()=>{saveS();applyBrand();renderAll();queueSync();toast('تم حفظ الإعدادات')};
   if(f){if(f.size>800000){$('setErr').textContent='حجم الشعار كبير، استخدم صورة أقل من 800KB';return}const r=new FileReader();r.onload=()=>{settings.logo=r.result;$('s_logo').value='';done()};r.readAsDataURL(f)}else done();
 }
-function resetLogo(){settings.logo='';store.set('settings_mag',settings);applyBrand();queueSync();toast('تمت العودة لشعار المجال العربي')}
+function resetLogo(){settings.logo='';saveS();applyBrand();queueSync();toast('تمت العودة لشعار المجال العربي')}
 ['s_leads','s_discussBefore','s_guaranteeBefore'].forEach(i=>$(i).addEventListener('input',()=>$('setErr').textContent=''));
 function backup(){dlBlob(new Blob([JSON.stringify({version:APP_VERSION,tenders,settings},null,1)],{type:'application/json'}),`نسخة احتياطية المنافسات ${todayStr()}.json`)}
-function restore(){const f=$('restoreFile').files[0];if(!f){$('setErr').textContent='اختر ملف النسخة الاحتياطية';return}const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.tenders))throw 0;tenders=d.tenders;if(d.settings)settings=Object.assign({},DEF,d.settings);migrate();saveT();store.set('settings_mag',settings);applyBrand();renderAll();loadSettings();toast('تمت الاستعادة')}catch(e){$('setErr').textContent='الملف غير صالح'}};r.readAsText(f)}
+function restore(){const f=$('restoreFile').files[0];if(!f){$('setErr').textContent='اختر ملف النسخة الاحتياطية';return}const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.tenders))throw 0;tenders=d.tenders;if(d.settings)settings=Object.assign({},DEF,d.settings);migrate();saveT();saveS();applyBrand();renderAll();loadSettings();toast('تمت الاستعادة')}catch(e){$('setErr').textContent='الملف غير صالح'}};r.readAsText(f)}
 function resetSample(){if(confirm('سيتم استبدال كل المنافسات بالبيانات النموذجية. متابعة؟')){tenders=JSON.parse(JSON.stringify(SEED));saveT();renderAll();toast('تمت إعادة البيانات النموذجية')}}
 
 const XF='Sakkal Majalla';
@@ -602,12 +683,21 @@ async function buildTendersBook(list){
   const DF={A:XP.gray,G:XP.peach,H:XP.peach,I:XP.peach,J:XP.greenL,K:XP.greenL,L:XP.greenL,M:XP.greenL,N:XP.yellowL,O:XP.yellowL,P:XP.yellowL,Q:XP.yellowL,R:XP.daysL};
   const sorted=[...list].sort((a,b)=>(a.openDate||'9')>(b.openDate||'9')?1:-1);
   sorted.forEach((t,i)=>{const r=4+i,row=ws.getRow(r);
-    row.values=[i+1,t.owner,String(t.number),t.name,t.value===''?null:Number(t.value),t.status,xd(t.discussDate),t.discussDate?{formula:`G${r}-TODAY()`,result:dl(t.discussDate)}:null,xd(t.guaranteeDate),dayEn(t.submitDate),hijriX(t.submitDate),xd(t.submitDate),xt(t.submitTime),dayEn(t.openDate),hijriX(t.openDate),xd(t.openDate),xt(t.openTime),t.openDate?{formula:`P${r}-TODAY()`,result:dl(t.openDate)}:null,xd(t.inquiryDate)];
+    const bc=t.submitDate?'L':'P',base=t.submitDate||t.openDate,c=calcDates(base);
+    const relD=(v,n)=>v&&c&&v===addDays(base,-n)?{formula:`${bc}${r}-${n}`,result:xd(v)}:xd(v);
+    const dayF=(col,s)=>s?{formula:`TEXT(${col}${r},"[$-409]dddd")`,result:dayEn(s)}:null;
+    row.values=[{formula:`ROW()-3`,result:i+1},t.owner,String(t.number),t.name,t.value===''?null:Number(t.value),t.status,relD(t.discussDate,DB_()),t.discussDate?{formula:`G${r}-TODAY()`,result:dl(t.discussDate)}:null,relD(t.guaranteeDate,GB_()),dayF('L',t.submitDate),hijriX(t.submitDate),xd(t.submitDate),xt(t.submitTime),dayF('P',t.openDate),hijriX(t.openDate),xd(t.openDate),xt(t.openTime),t.openDate?{formula:`P${r}-TODAY()`,result:dl(t.openDate)}:null,xd(t.inquiryDate)];
     for(let c=1;c<=19;c++){const L=colL(c),cell=row.getCell(c);
       xCell(cell,DF[L]||'#FFFFFF',{color:L==='A'?'#FFFFFF':(L==='M'||L==='Q')?XP.red:XP.ink,font:L==='S'?{size:12}:{}});
       if('GILP'.includes(L))cell.numFmt='yyyy/mm/dd';if(L==='S')cell.numFmt='d/m/yyyy';if(L==='M'||L==='Q')cell.numFmt='[$-409]h:mm AM/PM';if(L==='E')cell.numFmt='#,##0';if(L==='H'||L==='R')cell.numFmt='0'}
     row.height=Math.max(48,Math.ceil((t.name||'').length/34)*22)});
   const last=3+Math.max(sorted.length,1);daysCF(ws,`H4:H${last}`);daysCF(ws,`R4:R${last}`);frame(ws,2,last,1,19);
+  const tr=last+1,trow=ws.getRow(tr);ws.mergeCells(`A${tr}:C${tr}`);
+  trow.getCell(1).value='الإجمالي';trow.getCell(4).value={formula:`"عدد المنافسات: "&COUNTA(D4:D${last})`,result:'عدد المنافسات: '+sorted.length};
+  trow.getCell(5).value={formula:`SUM(E4:E${last})`,result:sorted.reduce((s,t)=>s+(Number(t.value)||0),0)};
+  trow.getCell(6).value={formula:`"تم الشراء: "&COUNTIF(F4:F${last},"تم الشراء")`,result:'تم الشراء: '+sorted.filter(t=>t.status==='تم الشراء').length};
+  ws.mergeCells(`G${tr}:S${tr}`);trow.getCell(7).value={formula:`"فتح مظاريف خلال 7 أيام: "&COUNTIFS(R4:R${last},">=0",R4:R${last},"<=7")`,result:'فتح مظاريف خلال 7 أيام: '+sorted.filter(t=>{const d=dl(t.openDate);return d!==null&&d>=0&&d<=7}).length};
+  for(let c=1;c<=19;c++)xCell(trow.getCell(c),XP.navy,{color:'#FFFFFF'});trow.getCell(5).numFmt='#,##0';trow.height=30;frame(ws,tr,tr,1,19);
   return wb;
 }
 async function exportExcel(list){if(!xReady(list))return;await saveBook(await buildTendersBook(list),`بيان مشاريع الخدمات البيئية تحت الدراسة ${new Date().getFullYear()}.xlsx`)}
@@ -619,13 +709,13 @@ async function simpleReport(title,file,headers,widths,rows,fmts,sheet,cfCol){
 }
 async function exportUpcoming(){
   const up=upcoming();if(!xReady(up))return;
-  const rows=up.map((e,i)=>[i+1,e.label,String(e.t.number),e.t.name,e.t.owner,dayEn(e.date),xd(e.date),hijriX(e.date),xt(e.time),{formula:`G${3+i}-TODAY()`,result:e.d}]);
+  const rows=up.map((e,i)=>[{formula:'ROW()-2',result:i+1},e.label,String(e.t.number),e.t.name,e.t.owner,{formula:`TEXT(G${3+i},"[$-409]dddd")`,result:dayEn(e.date)},xd(e.date),hijriX(e.date),xt(e.time),{formula:`G${3+i}-TODAY()`,result:e.d}]);
   await simpleReport('تقرير المواعيد القادمة خلال 30 يوماً',`تقرير المواعيد القادمة ${todayStr()}.xlsx`,['م','الإجراء','رقم المنافسة','اسم المنافسة','الجهة المالكة','اليوم','التاريخ ميلادي','هجري','الوقت','الأيام المتبقية'],[5,22,17,42,24,12,14,13,11,12],rows,{4:'right',7:'yyyy/mm/dd',9:'[$-409]h:mm AM/PM',10:'0'},'المواعيد','J');
 }
 async function exportAttachments(){
   const id=$('attTender').value,t=tenders.find(x=>x.id===id);
   const files=id?curFiles:(await allFiles()).sort((a,b)=>a.tid>b.tid?1:-1);if(!xReady(files))return;
-  const rows=files.map((f,i)=>{const tt=tenders.find(x=>x.id===f.tid)||{};return[i+1,String(tt.number||''),tt.name||'',f.name,f.kind==='link'?'رابط':'ملف',f.kind==='link'?'':fmtSize(f.size),f.kind==='link'?{text:f.url,hyperlink:f.url}:'محفوظ على الجهاز',new Date(f.date).toLocaleDateString('en-GB')]});
+  const rows=files.map((f,i)=>{const tt=tenders.find(x=>x.id===f.tid)||{};return[{formula:'ROW()-2',result:i+1},String(tt.number||''),tt.name||'',f.name,f.kind==='link'?'رابط':'ملف',f.kind==='link'?'':fmtSize(f.size),f.kind==='link'?{text:f.url,hyperlink:f.url}:'محفوظ على الجهاز',new Date(f.date).toLocaleDateString('en-GB')]});
   await simpleReport(t?`تقرير مرفقات منافسة: ${t.name} (${t.number})`:'تقرير مرفقات جميع المنافسات',`تقرير المرفقات ${t?t.number:'الكل'}.xlsx`,['م','رقم المنافسة','اسم المنافسة','اسم المرفق','النوع','الحجم','الرابط','تاريخ الإرفاق'],[5,17,40,34,9,11,40,14],rows,{3:'right',4:'right'},'المرفقات');
 }
 
@@ -653,12 +743,152 @@ async function syncNow(ask){
 function queueSync(){if(!syncHandle)return;clearTimeout(syncT);syncT=setTimeout(()=>syncNow(false),1500)}
 async function initSync(){if(!syncSupported())return;try{syncHandle=await kvGet('xlsxHandle')||null}catch(e){syncHandle=null}if(syncHandle&&!(await hasPerm(false)))$('syncBar').style.display='block';updSyncUI()}
 
+// ---------- Font size (per device)
+const FS_KEY='fontSize';
+const HAS_SAKKAL=(()=>{try{const c=document.createElement('canvas').getContext('2d'),t='المنافسات abc 123';c.font="40px monospace";const a=c.measureText(t).width;c.font="40px 'Sakkal Majalla',monospace";return c.measureText(t).width!==a}catch(e){return true}})();
+// Sakkal Majalla renders visually small; on devices without it (Android) scale the fallback font so "12" looks the same everywhere
+const FONT_K=HAS_SAKKAL?1:.8;
+function applyFont(){let v=12;try{v=parseFloat(localStorage.getItem(FS_KEY))||12}catch(e){}document.documentElement.style.fontSize=(v*FONT_K)+'pt';const s=$('fontSel');if(s)s.value=String(v)}
+$('fontSel').innerHTML=[10,11,12,13,14,15,16].map(n=>`<option value="${n}">${n}${n===12?' (الافتراضي)':''}</option>`).join('');
+$('fontSel').onchange=e=>{try{localStorage.setItem(FS_KEY,e.target.value)}catch(er){}applyFont()};
+applyFont();
+
+// ---------- PDF export (drawn on canvas, no external libraries)
+const PDF_FONT="'Sakkal Majalla','Traditional Arabic',Tahoma,'Noto Naskh Arabic','Noto Sans Arabic',sans-serif";
+function wrapLines(ctx,text,maxW){text=String(text??'');if(!text)return[''];const out=[];text.split('\n').forEach(par=>{const w=par.split(/\s+/);let line='';w.forEach(x=>{const t=line?line+' '+x:x;if(ctx.measureText(t).width<=maxW||!line)line=t;else{out.push(line);line=x}});out.push(line)});return out}
+function pdfFromJpegs(pages,pw,ph){
+  const enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const put=x=>{const b=typeof x==='string'?enc.encode(x):x;parts.push(b);len+=b.length};
+  const obj=(n,body)=>{offs[n]=len;put(`${n} 0 obj\n`);body.forEach(put);put('\nendobj\n')};
+  put('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  const n=pages.length,kids=pages.map((_,i)=>`${3+i*3} 0 R`).join(' ');
+  obj(1,['<< /Type /Catalog /Pages 2 0 R >>']);
+  obj(2,[`<< /Type /Pages /Kids [${kids}] /Count ${n} >>`]);
+  pages.forEach((p,i)=>{const pg=3+i*3,ct=pg+1,im=pg+2,cs=`q ${pw} 0 0 ${ph} 0 0 cm /Im0 Do Q`;
+    obj(pg,[`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pw} ${ph}] /Resources << /XObject << /Im0 ${im} 0 R >> >> /Contents ${ct} 0 R >>`]);
+    obj(ct,[`<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`]);
+    obj(im,[`<< /Type /XObject /Subtype /Image /Width ${p.w} /Height ${p.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${p.bytes.length} >>\nstream\n`,p.bytes,'\nendstream'])});
+  const total=3+n*3,xref=len;let x=`xref\n0 ${total}\n0000000000 65535 f \n`;for(let i=1;i<total;i++)x+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
+  put(x+`trailer\n<< /Size ${total} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+  return new Blob(parts,{type:'application/pdf'});
+}
+async function exportPDF(list){
+  if(!list.length){toast('لا توجد بيانات للتصدير');return}
+  toast('جاري تجهيز ملف PDF...');
+  const PW=1123,PH=794,S=2,M=24;
+  const L=[...list].sort((a,b)=>(a.openDate||'9')>(b.openDate||'9')?1:-1);
+  const cols=[['م',26,(t,i)=>i+1],['الجهة المالكة',112,t=>t.owner],['رقم المنافسة',100,t=>t.number],['اسم المنافسة',206,t=>t.name,'r'],['القيمة',56,t=>fmtN(t.value)],['موقف الشراء',70,t=>t.status],['المناقشة',80,t=>fmtG(t.discussDate)],['طلب الضمان',82,t=>fmtG(t.guaranteeDate)],['التقديم',104,t=>[dayName(t.submitDate),fmtG(t.submitDate),fmtTime(t.submitTime)].filter(Boolean).join('\n')],['فتح المظاريف',104,t=>[dayName(t.openDate),fmtG(t.openDate),fmtTime(t.openTime)].filter(Boolean).join('\n')],['المتبقي للفتح',58,t=>{const d=dl(t.openDate);return d===null?'':d<0?'انتهى':d===0?'اليوم':d+' يوم'}],['الاستفسارات',77,t=>fmtG(t.inquiryDate)]];
+  const lg=await logoPng();let logoImg=null;if(lg)logoImg=await new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=lg.data});
+  const pages=[];let ctx,y;
+  const F=(sz,b)=>`${b?'bold ':''}${sz}px ${PDF_FONT}`;
+  const newPage=first=>{const c=document.createElement('canvas');c.width=PW*S;c.height=PH*S;ctx=c.getContext('2d');ctx.scale(S,S);ctx.fillStyle='#fff';ctx.fillRect(0,0,PW,PH);ctx.direction='rtl';ctx.textBaseline='middle';pages.push(c);y=M;
+    if(first){ctx.fillStyle='#EF6C2B';ctx.fillRect(0,0,PW,6);
+      if(logoImg){const h=54,w=h*logoImg.width/logoImg.height;ctx.drawImage(logoImg,M,y+4,w,h)}
+      ctx.textAlign='right';ctx.fillStyle='#1F3864';ctx.font=F(22,true);ctx.fillText(settings.title,PW-M,y+18);
+      ctx.fillStyle='#555';ctx.font=F(15);ctx.fillText(`${settings.company} — عدد المنافسات: ${L.length} — تاريخ التقرير: ${fmtG(todayStr())} م / ${hijri(todayStr())} هـ`,PW-M,y+46);y+=72}
+    else y+=4;
+    // header row
+    ctx.font=F(14,true);let x=PW-M;const hh=30;cols.forEach(c=>{ctx.fillStyle=c[0]==='م'?'#7F7F7F':'#1F3864';ctx.fillRect(x-c[1],y,c[1],hh);ctx.strokeStyle='#fff';ctx.lineWidth=.6;ctx.strokeRect(x-c[1],y,c[1],hh);ctx.fillStyle='#fff';ctx.textAlign='center';const ls=wrapLines(ctx,c[0],c[1]-6);ls.forEach((l,k)=>ctx.fillText(l,x-c[1]/2,y+hh/2+(k-(ls.length-1)/2)*14));x-=c[1]});y+=hh};
+  newPage(true);
+  const LH=15;
+  L.forEach((t,i)=>{
+    ctx.font=F(14);const cells=cols.map(c=>wrapLines(ctx,c[2](t,i),c[1]-8));const rh=Math.max(...cells.map(c=>c.length))*LH+10;
+    if(y+rh>PH-M-14){newPage(false);ctx.font=F(14)}
+    let x=PW-M;cols.forEach((c,k)=>{ctx.fillStyle=k===0?'#7F7F7F':i%2?'#F5F7FB':'#fff';ctx.fillRect(x-c[1],y,c[1],rh);ctx.strokeStyle='#C9D1DE';ctx.lineWidth=.6;ctx.strokeRect(x-c[1],y,c[1],rh);
+      let col='#1D1D1B';if(k===0)col='#fff';if(c[0]==='موقف الشراء')col={'تم الشراء':'#1E6B3C','جاري الشراء':'#8A5A00','لم يتم الشراء':'#B42318','تم التقديم':'#1E6B3C'}[t.status]||'#555';
+      if(c[0]==='المتبقي للفتح'){const d=dl(t.openDate);col=d!==null&&d>=0&&d<=7?'#C00000':d<0?'#888':'#1E6B3C'}
+      ctx.fillStyle=col;ctx.font=F(14,k===3||k===0);ctx.textAlign=c[3]==='r'?'right':'center';const tx=c[3]==='r'?x-5:x-c[1]/2;
+      cells[k].forEach((l,j)=>ctx.fillText(l,tx,y+rh/2+(j-(cells[k].length-1)/2)*LH));x-=c[1]});
+    y+=rh});
+  const out=[];for(let i=0;i<pages.length;i++){const c=pages[i],g=c.getContext('2d');g.setTransform(S,0,0,S,0,0);g.direction='rtl';g.textAlign='center';g.textBaseline='middle';g.fillStyle='#777';g.font=F(13);g.fillText(`صفحة ${i+1} من ${pages.length} — ${settings.company}`,PW/2,PH-12);
+    const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.92));out.push({bytes:new Uint8Array(await blob.arrayBuffer()),w:c.width,h:c.height})}
+  dlBlob(pdfFromJpegs(out,842,595),`بيان المنافسات ${todayStr()}.pdf`);toast('تم تصدير ملف PDF');
+}
+
+// ---------- Cloud sync between devices (GitHub private repo)
+const CK='cloudCfg',DATA_PATH='tenders-data.json';
+const cloudCfg=()=>store.get(CK,null);
+let cloudBusy=false,cloudAgain=false,cloudT=null,cloudErr='';
+const u8b64=s=>{const b=new TextEncoder().encode(s);let bin='';for(let i=0;i<b.length;i+=0x8000)bin+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(bin)};
+const b64u8=s=>new TextDecoder().decode(Uint8Array.from(atob(String(s).replace(/\s/g,'')),c=>c.charCodeAt(0)));
+const hsh=s=>{let h=5381;for(let i=0;i<s.length;i++)h=(h*33^s.charCodeAt(i))>>>0;return h.toString(36)+s.length};
+const tHash=t=>{const o={...t};delete o.updatedAt;return hsh(JSON.stringify(o,Object.keys(o).sort()))};
+const tTime=t=>t.updatedAt||t.createdAt||0;
+function rebuildMeta(){const m={};tenders.forEach(t=>m[t.id]=tHash(t));store.set('syncMeta',m)}
+function trackChanges(){const m=store.get('syncMeta',null);if(!m){rebuildMeta();return}const now=Date.now(),del=store.get('deletedIds',{}),ids={};let dd=false;
+  tenders.forEach(t=>{ids[t.id]=1;const h=tHash(t);if(m[t.id]!==h){t.updatedAt=now;m[t.id]=h}});
+  Object.keys(m).forEach(id=>{if(!ids[id]){del[id]=now;delete m[id];dd=true}});
+  store.set('syncMeta',m);if(dd)store.set('deletedIds',del)}
+if(!store.get('syncMeta',null))rebuildMeta();
+function saveS(){settings._u=Date.now();store.set('settings_mag',settings);cloudQueue()}
+const syncSettings=s=>{const o={...s};delete o.logo;return o};
+function payload(){return{tenders:[...tenders].sort((a,b)=>a.id>b.id?1:-1),deleted:store.get('deletedIds',{}),settings:syncSettings(settings)}}
+const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+function mergeData(R){
+  const del={...store.get('deletedIds',{})};Object.entries(R.deleted||{}).forEach(([k,v])=>{if(!(del[k]>=v))del[k]=v});
+  const map=new Map();tenders.forEach(t=>map.set(t.id,t));(R.tenders||[]).forEach(t=>{const l=map.get(t.id);if(!l||tTime(t)>tTime(l))map.set(t.id,t)});
+  const T=[...map.values()].filter(t=>!(del[t.id]>=tTime(t)));
+  let S=settings;if(R.settings&&(R.settings._u||0)>(settings._u||0))S=Object.assign({},DEF,R.settings,{logo:settings.logo});
+  return{tenders:T,deleted:del,settings:S};
+}
+async function gh(path,opt={}){const c=cloudCfg();const r=await fetch('https://api.github.com'+path,Object.assign({cache:'no-store'},opt,{headers:Object.assign({Authorization:'Bearer '+c.token,Accept:'application/vnd.github+json'},opt.body?{'Content-Type':'application/json'}:{})}));return r}
+async function pull(){const c=cloudCfg();const r=await gh(`/repos/${c.owner}/${c.repo}/contents/${DATA_PATH}`);if(r.status===404)return{data:null,sha:null};if(r.status===401)throw new Error('auth');if(!r.ok)throw new Error('http'+r.status);
+  const j=await r.json();let txt;if(j.encoding==='base64'&&j.content)txt=b64u8(j.content);else{const b=await gh(`/repos/${c.owner}/${c.repo}/git/blobs/${j.sha}`);txt=b64u8((await b.json()).content)}return{data:JSON.parse(txt),sha:j.sha}}
+async function push(data,sha){const c=cloudCfg();const body={message:`مزامنة من ${NATIVE()?'الجوال':'الكمبيوتر'} — ${new Date().toLocaleString('en-GB')}`,content:u8b64(JSON.stringify(Object.assign({app:APP_VERSION,savedAt:new Date().toISOString()},data),null,1))};if(sha)body.sha=sha;
+  const r=await gh(`/repos/${c.owner}/${c.repo}/contents/${DATA_PATH}`,{method:'PUT',body:JSON.stringify(body)});if(r.status===409||r.status===422)throw new Error('conflict');if(!r.ok)throw new Error('http'+r.status)}
+function applyLocal(M){const changed=!same(M.tenders.slice().sort((a,b)=>a.id>b.id?1:-1),payload().tenders)||!same(syncSettings(M.settings),syncSettings(settings));
+  store.set('deletedIds',M.deleted);if(!changed)return false;tenders=M.tenders;settings=M.settings;migrate();store.set('tenders',tenders);store.set('settings_mag',settings);store.set('lastUpdate',new Date().toISOString());rebuildMeta();renderAll();checkReminders();queueSync();return true}
+function cloudUI(state){const c=cloudCfg(),chip=$('syncChip'),ls=c&&c.last?new Date(c.last).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):'';
+  chip.innerHTML=c?`<span class="sync-dot ${state||(cloudErr?'err':'ok')}"></span>${state==='busy'?'جاري المزامنة':cloudErr?'تعذرت المزامنة':'متزامن '+ls}`:'';
+  const el=$('cloudState');if(el)el.innerHTML=c?`<span class="sync-dot ${cloudErr?'err':'ok'}"></span>مرتبط بالمستودع الخاص <b dir="ltr">${esc(c.owner+'/'+c.repo)}</b>${c.last?' — آخر مزامنة: '+new Date(c.last).toLocaleString('ar-EG'):''}${cloudErr?' — '+esc(cloudErr):''}`:'غير مرتبط. اتبع "طريقة الربط لأول مرة" بالأعلى.';
+  if(c&&$('ghRepo')&&!$('ghRepo').value)$('ghRepo').value=c.repo}
+async function cloudSync(manual,retry){
+  const c=cloudCfg();if(!c){if(manual)toast('اربط المزامنة أولاً من الإعدادات');return}
+  if(cloudBusy){cloudAgain=true;return}cloudBusy=true;cloudUI('busy');
+  try{const{data,sha}=await pull();const M=data?mergeData(data):{tenders,deleted:store.get('deletedIds',{}),settings};
+    const got=applyLocal(M);
+    const P=payload();if(!data||!same({tenders:data.tenders&&[...data.tenders].sort((a,b)=>a.id>b.id?1:-1),deleted:data.deleted,settings:data.settings},P))await push(P,sha);
+    cloudErr='';c.last=Date.now();store.set(CK,c);if(manual)toast(got?'تمت المزامنة وتحديث البيانات من الجهاز الآخر':'تمت المزامنة، البيانات محدثة');else if(got)toast('تم تحديث البيانات من الجهاز الآخر')}
+  catch(e){if(e.message==='conflict'&&!retry){cloudBusy=false;return cloudSync(manual,true)}
+    cloudErr=e.message==='auth'?'الرمز غير صالح أو انتهت صلاحيته':(!navigator.onLine||e instanceof TypeError)?'لا يوجد اتصال بالإنترنت':'خطأ في الاتصال ('+e.message+')';if(manual)toast('تعذرت المزامنة: '+cloudErr)}
+  finally{cloudBusy=false;cloudUI();if(cloudAgain){cloudAgain=false;cloudQueue()}}}
+function cloudQueue(){if(!cloudCfg())return;clearTimeout(cloudT);cloudT=setTimeout(()=>cloudSync(false),1500)}
+async function cloudConnect(){
+  const old=cloudCfg()||{},token=$('ghToken').value.trim()||old.token,repo=($('ghRepo').value.trim()||'tenders-data').replace(/[^\w.-]/g,'-');
+  if(!token){toast('الصق رمز GitHub أولاً');return}
+  const H={Authorization:'Bearer '+token,Accept:'application/vnd.github+json'};
+  try{cloudUI('busy');
+    let r=await fetch('https://api.github.com/user',{headers:H,cache:'no-store'});if(r.status===401){toast('الرمز غير صحيح، تأكد من نسخه كاملاً');cloudUI();return}const owner=(await r.json()).login;
+    r=await fetch(`https://api.github.com/repos/${owner}/${repo}`,{headers:H,cache:'no-store'});
+    if(r.status===404){r=await fetch('https://api.github.com/user/repos',{method:'POST',headers:Object.assign({'Content-Type':'application/json'},H),body:JSON.stringify({name:repo,private:true,auto_init:true,description:'بيانات تطبيق متابعة المنافسات — مزامنة تلقائية'})});
+      if(!r.ok){toast('تعذر إنشاء مستودع البيانات. تأكد أن خيار repo كان محدداً عند إنشاء الرمز');cloudUI();return}toast('تم إنشاء مستودع خاص للبيانات')}
+    else if(r.ok){const j=await r.json();if(!j.private&&!confirm(`المستودع ${repo} عام (Public) وأي شخص يقدر يشوف البيانات. متابعة على أي حال؟`)){cloudUI();return}}
+    else{toast('تعذر الوصول للمستودع ('+r.status+')');cloudUI();return}
+    store.set(CK,{token,owner,repo,last:0});$('ghToken').value='';
+    const{data}=await pull().catch(()=>({data:null}));
+    if(data&&data.tenders&&data.tenders.length){
+      if(confirm(`يوجد على السحابة ${data.tenders.length} منافسة من جهازك الآخر.\n\nموافق = استبدال بيانات هذا الجهاز ببيانات السحابة (مناسب للجهاز الجديد)\nإلغاء = دمج بيانات الجهازين معاً`)){
+        store.set('deletedIds',data.deleted||{});tenders=data.tenders;if(data.settings)settings=Object.assign({},DEF,data.settings,{logo:settings.logo});migrate();store.set('tenders',tenders);store.set('settings_mag',settings);rebuildMeta();renderAll();loadSettings();checkReminders()}}
+    await cloudSync(true);
+  }catch(e){toast('تعذر الاتصال بـ GitHub، تأكد من الإنترنت');cloudUI()}}
+function cloudDisconnect(){if(!cloudCfg())return;if(!confirm('إلغاء المزامنة على هذا الجهاز؟ البيانات المحلية والسحابية تبقى كما هي.'))return;localStorage.removeItem(CK);cloudErr='';cloudUI();toast('تم إلغاء الربط على هذا الجهاز')}
+setInterval(()=>{if(document.visibilityState==='visible')cloudSync(false)},45000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')cloudSync(false)});
+window.addEventListener('online',()=>cloudSync(false));
+
+// ---------- New version notice
+const VER_URL='https://raw.githubusercontent.com/7odaelsayedme-lgtm/tenders-app/main/version.json',REL='https://github.com/7odaelsayedme-lgtm/tenders-app/releases/download/latest/';
+const verGt=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<3;i++){if((x[i]||0)!==(y[i]||0))return(x[i]||0)>(y[i]||0)}return false};
+async function checkUpdate(){try{const j=await (await fetch(VER_URL+'?t='+Date.now(),{cache:'no-store'})).json();if(!j.version||!verGt(j.version,APP_VERSION)||store.get('updSkip','')===j.version)return;
+  const u=REL+(NATIVE()?'tenders.apk':'tenders.html');$('updBar').innerHTML=`<span>يوجد إصدار جديد من التطبيق (${esc(j.version)})${j.notes?' — '+esc(j.notes):''}</span><button class="btn s p" onclick="openUrl('${u}')">تحميل التحديث</button><button class="btn s" onclick="store.set('updSkip','${esc(j.version)}');$('updBar').classList.remove('on')">لاحقاً</button>`;$('updBar').classList.add('on')}catch(e){}}
+
 function renderAll(){applyBrand();renderDash();renderList();if($('p-att').classList.contains('on'))renderAtt()}
 $('fStatus').innerHTML+=STATUSES.map(s=>`<option>${s}</option>`).join('');
 $('t_status').innerHTML=STATUSES.map(s=>`<option>${s}</option>`).join('');
-renderAll();checkReminders();initSync();
+renderAll();checkReminders();initSync();cloudUI();setTimeout(()=>cloudSync(false),800);checkUpdate();setInterval(checkUpdate,6*3600e3);
 setInterval(()=>{renderDash();renderList();checkReminders()},60000);
 window.addEventListener('storage',e=>{if(e.key==='tenders'){tenders=store.get('tenders',[]);migrate();renderAll()}});
+window.addEventListener('beforeunload',e=>{if(editMode){e.preventDefault();e.returnValue=''}});
 </script>
 </body>
 </html>
