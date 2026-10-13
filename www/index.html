@@ -240,7 +240,7 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
 <section class="page" id="p-set">
   <div class="card">
     <h2>المزامنة التلقائية بين الكمبيوتر والجوال</h2>
-    <p class="hint" style="margin-top:0">اربط الكمبيوتر والجوال بنفس الحساب، وأي إضافة أو تعديل أو حذف في أحدهما يظهر في الآخر تلقائياً خلال دقيقة تقريباً (يشمل المنافسات وقوائم المهام والإعدادات، أما الملفات المرفقة فتبقى على كل جهاز). البيانات تُحفظ في مستودع خاص (Private) على حسابك في GitHub ولا يراها غيرك.</p>
+    <p class="hint" style="margin-top:0">اربط الكمبيوتر والجوال بنفس الحساب، وأي إضافة أو تعديل أو حذف في أحدهما يظهر في الآخر تلقائياً خلال دقيقة تقريباً (يشمل المنافسات وقوائم المهام والإعدادات والمرفقات؛ الملفات تُنزّل على الجهاز الآخر عند فتحها، والملف الأكبر من 25MB يبقى على جهازه). البيانات تُحفظ في مستودع خاص (Private) على حسابك في GitHub ولا يراها غيرك.</p>
     <details id="syncHelp"><summary>طريقة الربط لأول مرة (دقيقتان)</summary>
       <ol class="hint" style="margin:6px 0">
         <li>افتح <a href="#" onclick="openUrl('https://github.com/settings/tokens/new?scopes=repo&amp;description=tenders-sync');return false">صفحة إنشاء رمز GitHub</a> وسجّل دخولك.</li>
@@ -318,7 +318,7 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
 <div class="modal" id="linkModal"><div><h3 id="lmTitle">رابط المرفقات</h3><input id="lmUrl" dir="ltr" readonly onclick="this.select()"><p class="hint" id="lmInfo"></p><div class="row"><button class="btn n" onclick="copyTxt($('lmUrl').value)">نسخ الرابط</button><button class="btn x" onclick="lmWA()">واتساب</button><button class="btn" onclick="lmMail()">إيميل</button><button class="btn" onclick="openUrl($('lmUrl').value)">فتح</button><button class="btn d" onclick="$('linkModal').classList.remove('on')">إغلاق</button></div></div></div>
 
 <script>
-const APP_VERSION='1.5.0',DEVELOPER='Mahmoud Elsayed';
+const APP_VERSION='1.5.1',DEVELOPER='Mahmoud Elsayed';
 const MARK_PATHS=c=>`<defs><clipPath id="mc"><rect x="200" y="200" width="1200" height="300"/></clipPath></defs><g clip-path="url(#mc)" fill="none" stroke="${c}" stroke-width="72" stroke-linejoin="round" stroke-linecap="round"><path d="M262 545 L350 290 L483 462 L617 290 L690 500 L846 290 L955 452 Q985 498 1060 465 L1306 465 L1306 370 L1110 370"/><path d="M1110 465 A96.5 96.5 0 0 1 1110 272 L1305 272"/></g>`;
 const LOGO_TEXT=`<text x="790" y="655" text-anchor="middle" direction="rtl" font-family="Sakkal Majalla, Traditional Arabic, Tahoma" font-size="120" font-weight="bold" fill="#1D1D1B">المجال العربي</text>`;
 const STATUSES=['جاري الشراء','تم الشراء','لم يتم الشراء','تم التقديم','مستبعدة'];
@@ -512,7 +512,16 @@ const kvSet=async(k,v)=>rq((await kv('readwrite')).put(v,k));
 const kvDel=async k=>rq((await kv('readwrite')).delete(k));
 const listFiles=async tid=>rq((await fs('readonly')).index('tid').getAll(tid));
 const allFiles=async()=>rq((await fs('readonly')).getAll());
-const delFile=async id=>rq((await fs('readwrite')).delete(id));
+const delFileRaw=async id=>rq((await fs('readwrite')).delete(id));
+const putRec=async r=>rq((await fs('readwrite')).put(r));
+const delFile=async id=>{const d=store.get('deletedIds',{});d[id]=Date.now();store.set('deletedIds',d);await delFileRaw(id);cloudQueue()};
+// files stored on another device are downloaded from the sync repo the first time they are needed
+async function ensureBlobs(items){const need=items.filter(f=>f.kind==='file'&&!f.blob);if(!need.length)return items;
+  if(!cloudCfg()){toast('بعض الملفات محفوظة على جهازك الآخر. فعّل المزامنة لتنزيلها');return items}
+  toast(need.length>1?`جاري تنزيل ${need.length} ملفات من السحابة...`:'جاري تنزيل الملف من السحابة...');
+  for(const f of need){try{const c=cloudCfg();const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/files/${f.id}`,{cache:'no-store',headers:{Authorization:'Bearer '+c.token,Accept:'application/vnd.github.raw+json'}});if(!r.ok)throw 0;
+    const b=await r.blob();f.blob=new Blob([b],{type:f.type||'application/octet-stream'});f.remote=false;await putRec(f)}catch(e){toast('تعذر تنزيل: '+f.name)}}
+  return items}
 let curFiles=[];
 
 function openAtt(id,isNew){go('att');$('attTender').value=id;renderFiles();$('attNote').style.display=isNew?'block':'none'}
@@ -523,7 +532,7 @@ async function renderFiles(){
   renderHist(t);
   if(!id){curFiles=[];$('attBody').innerHTML='<tr><td colspan="6" class="hint">اختر منافسة لعرض مرفقاتها وإضافة ملفات أو روابط</td></tr>';updSel();return}
   curFiles=(await listFiles(id)).sort((a,b)=>b.date-a.date);
-  $('attBody').innerHTML=curFiles.length?curFiles.map(f=>{const lk=f.kind==='link';return `<tr><td data-l="تحديد"><input type="checkbox" class="sel" value="${f.id}" aria-label="تحديد"></td><td data-l="النوع">${lk?'<span class="b g">رابط</span>':'<span class="b x">ملف</span>'}</td><td class="nm" data-l="الاسم">${lk?`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name)}</a>`:'<span>'+esc(f.name)+'</span>'}</td><td data-l="الحجم">${lk?'—':fmtSize(f.size)}</td><td data-l="تاريخ الإرفاق">${new Date(f.date).toLocaleString('ar-EG')}</td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="open" data-id="${f.id}">${lk?'فتح':'تنزيل'}</button>${lk?'':`<button class="btn s" data-a="link" data-id="${f.id}">رابط</button>`}<button class="btn s" data-a="share" data-id="${f.id}">مشاركة</button><button class="btn s d" data-a="rm" data-id="${f.id}">حذف</button></div></td></tr>`}).join(''):'<tr><td colspan="6" class="hint">لا توجد مرفقات بعد. أضف ملفات أو روابط من الأعلى</td></tr>';
+  $('attBody').innerHTML=curFiles.length?curFiles.map(f=>{const lk=f.kind==='link';return `<tr><td data-l="تحديد"><input type="checkbox" class="sel" value="${f.id}" aria-label="تحديد"></td><td data-l="النوع">${lk?'<span class="b g">رابط</span>':'<span class="b x">ملف</span>'}</td><td class="nm" data-l="الاسم">${lk?`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name)}</a>`:'<span>'+esc(f.name)+'</span>'}</td><td data-l="الحجم"><span>${lk?'—':fmtSize(f.size)}${!lk&&f.remote?' <span class="b x" title="محفوظ على السحابة ويُنزّل عند الفتح">☁ على السحابة</span>':''}${cloudCfg()&&f.synced!==(cloudCfg().owner+'/'+cloudCfg().repo)&&!f.tooBig?' <span class="b a">بانتظار المزامنة</span>':''}${f.tooBig?' <span class="b r" title="أكبر من 25MB">لا يُزامن (كبير)</span>':''}</span></td><td data-l="تاريخ الإرفاق">${new Date(f.date).toLocaleString('ar-EG')}</td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="open" data-id="${f.id}">${lk?'فتح':'تنزيل'}</button>${lk?'':`<button class="btn s" data-a="link" data-id="${f.id}">رابط</button>`}<button class="btn s" data-a="share" data-id="${f.id}">مشاركة</button><button class="btn s d" data-a="rm" data-id="${f.id}">حذف</button></div></td></tr>`}).join(''):'<tr><td colspan="6" class="hint">لا توجد مرفقات بعد. أضف ملفات أو روابط من الأعلى</td></tr>';
   updSel();
 }
 function selected(){const ids=[...document.querySelectorAll('.sel:checked')].map(x=>x.value);return curFiles.filter(f=>ids.includes(f.id))}
@@ -533,17 +542,18 @@ $('selAll').onchange=e=>{document.querySelectorAll('.sel').forEach(x=>x.checked=
 $('attBody').addEventListener('change',e=>{if(e.target.classList.contains('sel'))updSel()});
 async function uploadFiles(){const id=$('attTender').value,files=[...$('attFiles').files];if(!id){$('attErr').textContent='اختر المنافسة أولاً';return}if(!files.length){$('attErr').textContent='اختر ملفاً واحداً على الأقل';return}
   const s=await fs('readwrite');for(const f of files)s.put({id:'f'+Date.now()+Math.random().toString(36).slice(2,6),tid:id,kind:'file',name:f.name,type:f.type,size:f.size,date:Date.now(),blob:f});
-  s.transaction.oncomplete=()=>{$('attFiles').value='';renderFiles();toast(`تم رفع ${files.length} ملف`)}}
+  s.transaction.oncomplete=()=>{$('attFiles').value='';renderFiles();toast(`تم رفع ${files.length} ملف`);cloudQueue()}}
 async function addLink(){const id=$('attTender').value,name=$('linkName').value.trim(),url=$('linkUrl').value.trim();
   if(!id){$('attErr').textContent='اختر المنافسة أولاً';return}
   if(!/^https?:\/\/\S+$/i.test(url)){$('attErr').textContent='أدخل رابطاً صحيحاً يبدأ بـ https://';return}
   await rq((await fs('readwrite')).put({id:'l'+Date.now(),tid:id,kind:'link',name:name||url,url,date:Date.now()}));
-  $('linkName').value='';$('linkUrl').value='';renderFiles();toast('تمت إضافة الرابط')}
+  $('linkName').value='';$('linkUrl').value='';renderFiles();toast('تمت إضافة الرابط');cloudQueue()}
 ['linkName','linkUrl','attFiles'].forEach(i=>$(i).addEventListener('input',()=>$('attErr').textContent=''));
 function shareText(items){const t=tenders.find(x=>x.id===$('attTender').value);const links=items.filter(f=>f.kind==='link').map(f=>`- ${f.name}: ${f.url}`);const names=items.filter(f=>f.kind!=='link').map(f=>`- ${f.name}`);
   return [`مرفقات منافسة: ${t?t.name:''}`,t?`رقم المنافسة: ${t.number} — ${t.owner}`:'',t&&t.openDate?`موعد فتح المظاريف: ${fmtG(t.openDate)} ${fmtTime(t.openTime)}`:'',links.length?'\nالروابط:\n'+links.join('\n'):'',names.length?'\nالملفات المرفقة:\n'+names.join('\n'):'',`\n${settings.company}`].filter(Boolean).join('\n')}
 async function shareItems(items){
   if(!items.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}
+  await ensureBlobs(items);
   const text=shareText(items),files=items.filter(f=>f.kind!=='link'&&f.blob).map(f=>new File([f.blob],f.name,{type:f.type||'application/octet-stream'}));
   try{
     if(NP('Share')){await nativeShare(files.map(f=>[f,f.name]),text,'مرفقات منافسة');return}
@@ -557,9 +567,9 @@ const shareSel=()=>shareItems(selected());
 function shareWhatsApp(){const it=selected();if(!it.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}if(it.some(f=>f.kind!=='link'))toast('واتساب ويب يرسل الروابط والنص فقط. للملفات استخدم "مشاركة المحدد"');openUrl('https://wa.me/?text='+encodeURIComponent(shareText(it)))}
 function shareEmail(){const it=selected();if(!it.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}const t=tenders.find(x=>x.id===$('attTender').value);location.href=`mailto:?subject=${encodeURIComponent('مرفقات منافسة '+(t?t.number:''))}&body=${encodeURIComponent(shareText(it))}`}
 async function copyLinks(){const it=selected();if(!it.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}copyTxt(shareText(it))}
-function downloadSel(){const it=selected();if(!it.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}it.forEach(f=>f.kind==='link'?openUrl(f.url):dlBlob(f.blob,f.name))}
+async function downloadSel(){const it=selected();if(!it.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}await ensureBlobs(it);it.filter(f=>f.kind==='link'||f.blob).forEach(f=>f.kind==='link'?openUrl(f.url):dlBlob(f.blob,f.name))}
 $('attBody').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const f=curFiles.find(x=>x.id===b.dataset.id);if(!f)return;
-  if(b.dataset.a==='open')f.kind==='link'?openUrl(f.url):dlBlob(f.blob,f.name);
+  if(b.dataset.a==='open'){if(f.kind==='link')openUrl(f.url);else{await ensureBlobs([f]);if(f.blob)dlBlob(f.blob,f.name)}}
   if(b.dataset.a==='share')shareItems([f]);
   if(b.dataset.a==='link')genLink([f]);
   if(b.dataset.a==='rm'&&confirm('حذف المرفق؟')){await delFile(f.id);renderFiles()}};
@@ -569,6 +579,7 @@ function selOrAll(){const s=selected();return s.length?s:curFiles}
 function curT(){return tenders.find(x=>x.id===$('attTender').value)}
 async function buildZip(items){
   if(!window.JSZip)throw new Error('nozip');
+  await ensureBlobs(items);
   const z=new JSZip(),used={};
   items.filter(f=>f.kind!=='link'&&f.blob).forEach(f=>{let n=f.name,i=1;while(used[n]){const k=f.name.lastIndexOf('.');n=k>0?`${f.name.slice(0,k)} (${++i})${f.name.slice(k)}`:`${f.name} (${++i})`}used[n]=1;z.file(n,f.blob)});
   const lk=items.filter(f=>f.kind==='link');if(lk.length)z.file('روابط المرفقات.txt','\ufeff'+lk.map(f=>`${f.name}: ${f.url}`).join('\r\n'));
@@ -584,6 +595,7 @@ async function uploadBlob(blob,name){
 async function genLink(items){
   const t=curT();if(!t){$('attErr').textContent='اختر المنافسة أولاً';return}
   if(!items.length){$('attErr').textContent='لا توجد مرفقات لإصدار رابط لها';return}
+  await ensureBlobs(items);
   const files=items.filter(f=>f.kind!=='link'&&f.blob),links=items.filter(f=>f.kind==='link');
   if(!files.length){if(links.length===1)return showLink(links[0].url,links[0].name,'هذا المرفق رابط أصلاً');return copyTxt(shareText(links))}
   const btn=$('linkBtn');btn.disabled=true;$('attErr').innerHTML='<span class="hint">جاري تجهيز الملفات ورفعها... لا تغلق الصفحة</span>';
@@ -847,11 +859,33 @@ async function cloudSync(manual,retry){
   if(cloudBusy){cloudAgain=true;return}cloudBusy=true;cloudUI('busy');
   try{const{data,sha}=await pull();const M=data?mergeData(data):{tenders,deleted:store.get('deletedIds',{}),settings};
     const got=applyLocal(M);
-    const P=payload();if(!data||!same({tenders:data.tenders&&[...data.tenders].sort((a,b)=>a.id>b.id?1:-1),deleted:data.deleted,settings:data.settings},P))await push(P,sha);
+    const fx=await syncFiles(data&&data.files||{});
+    const P=payload();P.files=fx.index;if(!data||!same({tenders:data.tenders&&[...data.tenders].sort((a,b)=>a.id>b.id?1:-1),deleted:data.deleted,settings:data.settings,files:data.files||{}},P))await push(P,sha);
+    if(fx.changed&&$('p-att').classList.contains('on'))renderFiles();
     cloudErr='';c.last=Date.now();store.set(CK,c);if(manual)toast(got?'تمت المزامنة وتحديث البيانات من الجهاز الآخر':'تمت المزامنة، البيانات محدثة');else if(got)toast('تم تحديث البيانات من الجهاز الآخر')}
   catch(e){if(e.message==='conflict'&&!retry){cloudBusy=false;return cloudSync(manual,true)}
     cloudErr=e.message==='auth'?'الرمز غير صالح أو انتهت صلاحيته':(!navigator.onLine||e instanceof TypeError)?'لا يوجد اتصال بالإنترنت':'خطأ في الاتصال ('+e.message+')';if(manual)toast('تعذرت المزامنة: '+cloudErr)}
   finally{cloudBusy=false;cloudUI();if(cloudAgain){cloudAgain=false;cloudQueue()}}}
+const MAXF=25*1048576;
+async function ghFileSha(c,id){const r=await gh(`/repos/${c.owner}/${c.repo}/contents/files/${id}`);return r.ok?(await r.json()).sha:null}
+async function syncFiles(remoteIdx){
+  const c=cloudCfg(),RK=c.owner+'/'+c.repo,del=store.get('deletedIds',{}),local=await allFiles(),L=new Map(local.map(f=>[f.id,f])),idx={};let changed=false,up=0;
+  for(const[id,m]of Object.entries(remoteIdx)){
+    if(del[id]){if(m.kind==='file')ghFileSha(c,id).then(s=>s&&gh(`/repos/${c.owner}/${c.repo}/contents/files/${id}`,{method:'DELETE',body:JSON.stringify({message:'حذف مرفق',sha:s})})).catch(()=>{});continue}
+    idx[id]=m;const f=L.get(id);
+    if(!f){await putRec(Object.assign({},m,{remote:m.kind==='file',synced:RK}));changed=true}
+    else if(f.synced!==RK){f.synced=RK;await putRec(f)}}
+  for(const f of local){
+    if(idx[f.id])continue;
+    if(del[f.id]||f.synced===RK){await delFileRaw(f.id);changed=true;continue}
+    const m={id:f.id,tid:f.tid,kind:f.kind,name:f.name,date:f.date};if(f.kind==='link')m.url=f.url;else{m.type=f.type||'';m.size=f.size||0}
+    if(f.kind==='file'){if(!f.blob)continue;if(f.size>MAXF){if(!f.tooBig){f.tooBig=true;await putRec(f);toast(`الملف "${f.name}" أكبر من 25MB ولن يُزامن، يبقى على هذا الجهاز فقط`)}continue}
+      if(!up++)toast('جاري رفع المرفقات للسحابة...');
+      const body={message:'مرفق: '+f.name,content:await b64(f.blob)};let r=await gh(`/repos/${c.owner}/${c.repo}/contents/files/${f.id}`,{method:'PUT',body:JSON.stringify(body)});
+      if(r.status===422){const s=await ghFileSha(c,f.id);if(s)r={ok:true}}
+      if(!r.ok)continue}
+    idx[f.id]=m;f.synced=RK;await putRec(f);changed=true}
+  const sorted={};Object.keys(idx).sort().forEach(k=>sorted[k]=idx[k]);return{index:sorted,changed}}
 function cloudQueue(){if(!cloudCfg())return;clearTimeout(cloudT);cloudT=setTimeout(()=>cloudSync(false),1500)}
 async function cloudConnect(){
   const old=cloudCfg()||{},token=$('ghToken').value.trim()||old.token,repo=($('ghRepo').value.trim()||'tenders-data').replace(/[^\w.-]/g,'-');
