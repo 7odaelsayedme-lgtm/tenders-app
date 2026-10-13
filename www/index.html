@@ -312,10 +312,20 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
 <footer id="foot"></footer>
 <div id="toasts"></div>
 <div class="modal" id="pwModal"><div style="max-width:380px"><h3>كلمة مرور التعديل</h3><input id="pwIn" type="password" dir="ltr" autocomplete="off"><div class="err" id="pwErr"></div><div class="row"><button class="btn p" onclick="pwOk()">تأكيد</button><button class="btn" onclick="pwClose()">إلغاء</button></div></div></div>
+<div class="modal" id="drvModal"><div><h3>رفع على Google Drive وإنشاء رابط</h3>
+  <ol style="margin:0 0 10px;padding-inline-start:20px;line-height:1.9">
+    <li>سيفتح Google Drive (مجلد المنافسة إن وُجد). ارفع الملف أو المجلد.</li>
+    <li>اضغط على الملف ← <b>مشاركة</b> ← في "الوصول العام" اختر <b>أي شخص لديه الرابط</b>.</li>
+    <li>اضغط <b>نسخ الرابط</b> ثم ارجع لهذا التطبيق، وسيُضاف الرابط تلقائياً.</li>
+  </ol>
+  <div class="row"><button class="btn p" onclick="drvGo()">متابعة إلى Google Drive</button><button class="btn" onclick="$('drvModal').classList.remove('on')">إلغاء</button></div></div></div>
+<div class="modal" id="clipModal"><div><h3>تم العثور على رابط Google Drive</h3><p class="hint" id="clipFor" style="margin:0 0 6px"></p>
+  <input id="clipUrl" dir="ltr" readonly><input id="clipName" placeholder="اسم المرفق (اختياري)" style="margin-top:8px">
+  <div class="row" style="margin-top:10px"><button class="btn p" id="clipAdd" onclick="clipAccept('link')">إضافة كرابط مرفق</button><button class="btn n" id="clipFolder" onclick="clipAccept('folder')">حفظه كمجلد المنافسة</button><button class="btn" onclick="clipDismiss()">تجاهل</button></div></div></div>
 <div class="modal" id="linkModal"><div><h3 id="lmTitle">رابط المرفقات</h3><input id="lmUrl" dir="ltr" readonly onclick="this.select()"><p class="hint" id="lmInfo"></p><div class="row"><button class="btn n" onclick="copyTxt($('lmUrl').value)">نسخ الرابط</button><button class="btn x" onclick="lmWA()">واتساب</button><button class="btn" onclick="lmMail()">إيميل</button><button class="btn" onclick="openUrl($('lmUrl').value)">فتح</button><button class="btn d" onclick="$('linkModal').classList.remove('on')">إغلاق</button></div></div></div>
 
 <script>
-const APP_VERSION='1.6.0',DEVELOPER='Mahmoud Elsayed';
+const APP_VERSION='1.6.1',DEVELOPER='Mahmoud Elsayed';
 const MARK_PATHS=c=>`<defs><clipPath id="mc"><rect x="200" y="200" width="1200" height="300"/></clipPath></defs><g clip-path="url(#mc)" fill="none" stroke="${c}" stroke-width="72" stroke-linejoin="round" stroke-linecap="round"><path d="M262 545 L350 290 L483 462 L617 290 L690 500 L846 290 L955 452 Q985 498 1060 465 L1306 465 L1306 370 L1110 370"/><path d="M1110 465 A96.5 96.5 0 0 1 1110 272 L1305 272"/></g>`;
 const LOGO_TEXT=`<text x="790" y="655" text-anchor="middle" direction="rtl" font-family="Sakkal Majalla, Traditional Arabic, Tahoma" font-size="120" font-weight="bold" fill="#1D1D1B">المجال العربي</text>`;
 const STATUSES=['جاري الشراء','تم الشراء','لم يتم الشراء','تم التقديم','مستبعدة'];
@@ -545,10 +555,31 @@ async function uploadFiles(){const id=$('attTender').value,files=[...$('attFiles
 function driveKind(u){u=String(u||'');if(/drive\.google\.com\/(drive\/)?(u\/\d+\/)?folders\//.test(u))return 'مجلد Drive';if(/docs\.google\.com\/spreadsheets/.test(u))return 'جدول Google';if(/docs\.google\.com\/document/.test(u))return 'مستند Google';if(/docs\.google\.com\/presentation/.test(u))return 'عرض Google';if(/drive\.google\.com|docs\.google\.com/.test(u))return 'ملف Drive';return ''}
 async function pasteLink(){let t='';try{t=await navigator.clipboard.readText()}catch(e){}if(!t&&NP('Clipboard')){try{t=(await NP('Clipboard').read()).value||''}catch(e){}}const m=String(t).match(/https?:\/\/\S+/);if(m){$('linkUrl').value=m[0];$('attErr').textContent=''}else{$('linkUrl').focus();toast('انسخ رابط الملف أولاً، أو الصقه يدوياً في الخانة')}}
 function renderDrive(t,edit){const b=$('driveBox');if(!t){b.style.display='none';return}b.style.display='block';
-  b.innerHTML=t.driveFolder&&!edit?`<div class="row"><b>📁 مجلد المنافسة على Google Drive</b><span style="flex:1"></span><button class="btn n" onclick="openUrl(curT().driveFolder)">فتح المجلد</button><button class="btn s" onclick="setDrive(true)">تغيير</button></div><div class="hint" style="margin-top:4px">ارفع الملفات الكبيرة داخل هذا المجلد من تطبيق Drive، فتكون متاحة للجميع من أي جهاز بدون مساحة على الجوال.</div>`
-  :`<b>📁 مجلد المنافسة على Google Drive</b><div class="hint">أنشئ مجلداً للمنافسة في Drive، وارفع فيه الملفات الكبيرة، ثم الصق رابطه هنا مرة واحدة.</div><div class="row" style="margin-top:6px"><input id="drvIn" dir="ltr" value="${esc(t.driveFolder||'')}" placeholder="https://drive.google.com/drive/folders/..."><button class="btn p" onclick="setDrive()">حفظ</button>${t.driveFolder?'<button class="btn" onclick="renderDrive(curT())">إلغاء</button>':''}<button class="btn" onclick="openUrl('https://drive.google.com/drive/my-drive')">فتح Google Drive</button></div>`}
+  b.innerHTML=t.driveFolder&&!edit?`<div class="row"><b>📁 مجلد المنافسة على Google Drive</b><span style="flex:1"></span><button class="btn p" onclick="drvStart()">📤 رفع على Drive وإنشاء رابط</button><button class="btn n" onclick="openUrl(curT().driveFolder)">فتح المجلد</button><button class="btn s" onclick="setDrive(true)">تغيير</button></div><div class="hint" style="margin-top:4px">ارفع الملفات الكبيرة داخل هذا المجلد من تطبيق Drive، فتكون متاحة للجميع من أي جهاز بدون مساحة على الجوال.</div>`
+  :`<b>📁 مجلد المنافسة على Google Drive</b><div class="row" style="margin:6px 0"><button class="btn p" onclick="drvStart()">📤 رفع على Drive وإنشاء رابط</button></div><div class="hint">أو أنشئ مجلداً للمنافسة في Drive والصق رابطه هنا مرة واحدة، فيكون لكل ملفاتها رابط واحد.</div><div class="row" style="margin-top:6px"><input id="drvIn" dir="ltr" value="${esc(t.driveFolder||'')}" placeholder="https://drive.google.com/drive/folders/..."><button class="btn p" onclick="setDrive()">حفظ</button>${t.driveFolder?'<button class="btn" onclick="renderDrive(curT())">إلغاء</button>':''}<button class="btn" onclick="openUrl('https://drive.google.com/drive/my-drive')">فتح Google Drive</button></div>`}
 function setDrive(change){const t=curT();if(!t)return;if(change){renderDrive(t,true);setTimeout(()=>$('drvIn')&&$('drvIn').focus(),50);return}
   const raw=($('drvIn').value||'').trim(),v=raw.match(/https?:\/\/\S+/);if(!v&&raw){toast('الصق رابط المجلد من Google Drive');return}t.driveFolder=v?v[0]:'';saveT();renderDrive(t);renderList();toast('تم حفظ رابط مجلد المنافسة')}
+// ---------- Drive shortcut: password -> open Drive -> pick up the copied link on return
+let drvPending=null,clipLast='';
+function drvStart(){const t=curT();if(!t){$('attErr').textContent='اختر المنافسة أولاً';return}requirePw(()=>$('drvModal').classList.add('on'))}
+async function readClip(){try{if(NP('Clipboard'))return (await NP('Clipboard').read()).value||''}catch(e){}try{return await navigator.clipboard.readText()}catch(e){return ''}}
+async function drvGo(){$('drvModal').classList.remove('on');const t=curT();drvPending={tid:t.id,at:Date.now()};clipLast=await readClip();openUrl(t.driveFolder||'https://drive.google.com/drive/my-drive')}
+async function drvCheck(){if(!drvPending||Date.now()-drvPending.at>40*60e3||$('clipModal').classList.contains('on'))return;
+  const txt=await readClip();const m=String(txt||'').match(/https?:\/\/(drive|docs)\.google\.com\/\S+/);if(!m||txt===clipLast)return;
+  const url=m[0],t=tenders.find(x=>x.id===drvPending.tid);if(!t)return;
+  if(t.driveFolder===url||(await listFiles(t.id)).some(f=>f.url===url)){clipLast=txt;return}
+  clipLast=txt;const isFolder=driveKind(url)==='مجلد Drive';
+  $('clipFor').textContent=`المنافسة: ${t.name} (${t.number})`;$('clipUrl').value=url;$('clipName').value='';
+  $('clipFolder').style.display=isFolder?'':'none';$('clipAdd').textContent=isFolder?'إضافة كرابط مرفق':'إضافة الرابط';$('clipModal').classList.add('on')}
+async function clipAccept(kind){const t=tenders.find(x=>x.id===(drvPending||{}).tid);const url=$('clipUrl').value;$('clipModal').classList.remove('on');if(!t)return;
+  if(kind==='folder'){t.driveFolder=url;saveT();renderList();toast('تم حفظ رابط مجلد المنافسة')}
+  else{await rq((await fs('readwrite')).put({id:'l'+Date.now(),tid:t.id,kind:'link',name:$('clipName').value.trim()||driveKind(url)||'رابط Drive',url,date:Date.now()}));cloudQueue();toast('تمت إضافة الرابط')}
+  if($('attTender').value!==t.id)openAtt(t.id);else renderFiles();
+  toast('تذكير: تأكد أن مشاركة الملف في Drive على "أي شخص لديه الرابط"')}
+function clipDismiss(){$('clipModal').classList.remove('on')}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')setTimeout(drvCheck,600)});
+window.addEventListener('focus',()=>setTimeout(drvCheck,600));
+try{if(NP('Browser'))NP('Browser').addListener('browserFinished',()=>setTimeout(drvCheck,600))}catch(e){}
 async function addLink(){const id=$('attTender').value,url=$('linkUrl').value.trim();let name=$('linkName').value.trim();if(!name)name=driveKind(url)||'';
   if(!id){$('attErr').textContent='اختر المنافسة أولاً';return}
   if(!/^https?:\/\/\S+$/i.test(url)){$('attErr').textContent='أدخل رابطاً صحيحاً يبدأ بـ https://';return}
