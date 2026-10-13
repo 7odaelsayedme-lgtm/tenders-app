@@ -90,6 +90,7 @@ details{margin-top:8px}summary{cursor:pointer;color:var(--brand-d)}
 footer{text-align:center;color:var(--mut);padding:14px;font-size:0.857rem;border-top:1px solid var(--line);background:#fff;line-height:1.6}
 footer b{color:var(--brand-d)}
 @media(max-width:900px){.cl{grid-template-columns:1fr}}
+.drv{border:1px solid #CFE0F5;background:#F3F8FE;border-radius:10px;padding:10px 12px;margin-bottom:12px}.drv b{color:var(--navy)}
 .upd{background:var(--navy);color:#fff;padding:6px 14px;display:none;align-items:center;gap:10px;flex-wrap:wrap;font-size:.93rem}.upd.on{display:flex}.upd .btn{padding:0 10px}
 .sync-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#C9CDD4;margin-inline-end:6px;vertical-align:middle}.sync-dot.ok{background:#3BB273}.sync-dot.busy{background:#F2B33D}.sync-dot.err{background:var(--red)}
 #syncChip{font-size:.8rem;color:var(--mut);white-space:nowrap;cursor:pointer}
@@ -116,6 +117,8 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
   table.rt td .row{justify-content:flex-end!important;width:100%}
   table.rt.editing td{flex-wrap:wrap}table.rt.editing input,table.rt.editing select{flex:1;min-width:0!important}
   #clOver tr.cur{border-inline-start-color:var(--brand)}
+  table.rt td.nosm{display:none}
+  #driveBox .row>b{flex-basis:100%}
   #listTbl:not(.editing) tr{display:grid;grid-template-columns:1fr 1fr;column-gap:12px;padding:6px 10px}
   #listTbl:not(.editing) td{display:block;text-align:start;padding:4px 0}
   #listTbl:not(.editing) td[data-l]::before{display:block;max-width:none;font-size:.78rem;line-height:1.2}
@@ -203,6 +206,7 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
       <div><label>تاريخ المناقشة</label><input id="t_discussDate" type="date"></div>
       <div><label>تاريخ طلب الضمان الابتدائي</label><input id="t_guaranteeDate" type="date"></div>
       <div><label>آخر موعد لاستلام الاستفسارات</label><input id="t_inquiryDate" type="date"></div>
+      <div class="full"><label>رابط مجلد المنافسة على Google Drive (اختياري)</label><input id="t_driveFolder" dir="ltr" placeholder="https://drive.google.com/drive/folders/..."></div>
       <div class="full"><label>ملاحظات الدراسة</label><textarea id="t_notes" style="min-height:80px"></textarea></div>
     </div>
     <div class="err" id="formErr"></div>
@@ -212,26 +216,19 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
 
 <section class="page" id="p-att">
   <div class="card">
-    <div class="note" id="attNote">تم حفظ المنافسة. أضف مرفقاتها الآن: ملفات من جهازك أو روابط.</div>
+    <div class="note" id="attNote">تم حفظ المنافسة. أضف رابط مجلدها على Google Drive، أو روابط ملفاتها.</div>
     <div class="head"><h2>مرفقات المنافسة</h2><button class="btn x" onclick="exportAttachments()">تصدير قائمة المرفقات Excel</button></div>
     <div class="row" style="margin-bottom:8px"><select id="attTender"></select></div>
-    <div id="attInfo" class="hint" style="margin-bottom:12px"></div>
-    <div class="grid" style="margin-bottom:6px">
-      <div><label>إضافة ملفات</label><div class="row"><input type="file" id="attFiles" multiple><button class="btn p" onclick="uploadFiles()">رفع</button></div></div>
-      <div><label>إضافة رابط (Drive أو OneDrive...)</label><div class="row"><input id="linkName" placeholder="كراسة الشروط"><input id="linkUrl" dir="ltr" placeholder="https://"><button class="btn p" onclick="addLink()">إضافة</button></div></div>
-    </div>
+    <div id="attInfo" class="hint" style="margin-bottom:10px"></div>
+    <div id="driveBox" class="drv" style="display:none"></div>
+    <label>إضافة رابط ملف (Google Drive أو غيره)</label>
+    <div class="row"><input id="linkUrl" dir="ltr" placeholder="الصق رابط الملف من Google Drive"><button class="btn" onclick="pasteLink()">لصق</button></div>
+    <div class="row" style="margin-top:6px"><input id="linkName" placeholder="اسم المرفق (اختياري) مثل: كراسة الشروط"><button class="btn p" onclick="addLink()">إضافة الرابط</button></div>
+    <div class="hint" style="margin-top:4px">من تطبيق Drive: اضغط على الملف ← مشاركة ← نسخ الرابط، ثم الصقه هنا.</div>
+    <details style="margin:8px 0 4px"><summary>رفع ملف صغير من الجهاز بدلاً من الرابط (حتى 25MB)</summary>
+      <div class="row" style="margin-top:6px"><input type="file" id="attFiles" multiple><button class="btn" onclick="uploadFiles()">رفع</button></div></details>
     <div class="err" id="attErr"></div>
-    <div class="row" style="margin-bottom:8px">
-      <button class="btn n" id="linkBtn" onclick="genLink(selOrAll())">إصدار رابط للمحدد</button>
-      <button class="btn x" onclick="zipSel()">تنزيل ملف مضغوط ZIP</button>
-      <button class="btn" onclick="shareSel()">مشاركة المحدد</button>
-      <button class="btn" onclick="shareWhatsApp()">إرسال الروابط واتساب</button>
-      <button class="btn" onclick="shareEmail()">إرسال بالإيميل</button>
-      <button class="btn" onclick="copyLinks()">نسخ الروابط</button>
-      <button class="btn" onclick="downloadSel()">تنزيل المحدد</button>
-      <span class="hint" id="selCount"></span>
-    </div>
-    <div class="hint" style="margin-bottom:10px">إذا لم تحدد شيئاً يتم إصدار الرابط أو الملف المضغوط لكل مرفقات المنافسة. الرابط يرفع نسخة من الملفات على خدمة مشاركة ملفات خارجية (Gofile)، وأي شخص معه الرابط يقدر يفتحه، فلا تستخدمه للمستندات السرية.</div>
+    <div class="row" style="margin-bottom:8px"><button class="btn n" onclick="shareSel()">مشاركة المرفقات</button><span class="hint">ترسل الروابط عبر واتساب أو الإيميل أو أي تطبيق. إذا لم تحدد شيئاً تُرسل كل مرفقات المنافسة.</span><span class="hint" id="selCount"></span></div>
     <div class="tw"><table class="rt"><thead><tr><th><input type="checkbox" id="selAll" aria-label="تحديد الكل"></th><th>النوع</th><th>الاسم</th><th>الحجم</th><th>تاريخ الإرفاق</th><th>إجراءات</th></tr></thead><tbody id="attBody"></tbody></table></div>
     <div id="linksHist" style="margin-top:14px"></div>
   </div>
@@ -318,7 +315,7 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
 <div class="modal" id="linkModal"><div><h3 id="lmTitle">رابط المرفقات</h3><input id="lmUrl" dir="ltr" readonly onclick="this.select()"><p class="hint" id="lmInfo"></p><div class="row"><button class="btn n" onclick="copyTxt($('lmUrl').value)">نسخ الرابط</button><button class="btn x" onclick="lmWA()">واتساب</button><button class="btn" onclick="lmMail()">إيميل</button><button class="btn" onclick="openUrl($('lmUrl').value)">فتح</button><button class="btn d" onclick="$('linkModal').classList.remove('on')">إغلاق</button></div></div></div>
 
 <script>
-const APP_VERSION='1.5.1',DEVELOPER='Mahmoud Elsayed';
+const APP_VERSION='1.6.0',DEVELOPER='Mahmoud Elsayed';
 const MARK_PATHS=c=>`<defs><clipPath id="mc"><rect x="200" y="200" width="1200" height="300"/></clipPath></defs><g clip-path="url(#mc)" fill="none" stroke="${c}" stroke-width="72" stroke-linejoin="round" stroke-linecap="round"><path d="M262 545 L350 290 L483 462 L617 290 L690 500 L846 290 L955 452 Q985 498 1060 465 L1306 465 L1306 370 L1110 370"/><path d="M1110 465 A96.5 96.5 0 0 1 1110 272 L1305 272"/></g>`;
 const LOGO_TEXT=`<text x="790" y="655" text-anchor="middle" direction="rtl" font-family="Sakkal Majalla, Traditional Arabic, Tahoma" font-size="120" font-weight="bold" fill="#1D1D1B">المجال العربي</text>`;
 const STATUSES=['جاري الشراء','تم الشراء','لم يتم الشراء','تم التقديم','مستبعدة'];
@@ -451,15 +448,16 @@ function renderList(force){
   const L=filtered();$('listTbl').classList.toggle('editing',editMode);
   const ip=(t,f,type,extra)=>`<input data-f="${f}" type="${type||'text'}" value="${esc(t[f]??'')}" ${extra||''}>`;
   if(editMode){$('listBody').innerHTML=L.map((t,i)=>`<tr data-id="${t.id}"><td data-l="م">${i+1}</td><td data-l="الجهة المالكة">${ip(t,'owner')}</td><td data-l="رقم المنافسة">${ip(t,'number','text','inputmode="numeric" dir="ltr"')}</td><td class="nm" data-l="اسم المنافسة">${ip(t,'name')}</td><td data-l="القيمة">${ip(t,'value','number','min="0"')}</td><td data-l="موقف الشراء"><select data-f="status">${STATUSES.map(s=>`<option ${s===t.status?'selected':''}>${s}</option>`).join('')}</select></td><td data-l="المناقشة">${ip(t,'discussDate','date')}</td><td data-l="طلب الضمان">${ip(t,'guaranteeDate','date')}</td><td data-l="التقديم">${ip(t,'submitDate','date')}${ip(t,'submitTime','time')}</td><td data-l="فتح المظاريف">${ip(t,'openDate','date')}${ip(t,'openTime','time')}</td><td data-l="الاستفسارات">${ip(t,'inquiryDate','date')}</td><td data-l="ملاحظات">${ip(t,'notes')}</td></tr>`).join('');return}
-  $('listBody').innerHTML=L.length?L.map((t,i)=>`<tr><td data-l="م">${i+1}</td><td data-l="الجهة المالكة">${esc(t.owner)}</td><td data-l="رقم المنافسة">${esc(t.number)}</td><td class="nm" data-l="اسم المنافسة">${esc(t.name)}</td><td data-l="القيمة">${fmtN(t.value)}</td><td data-l="موقف الشراء">${stBadge(t.status)}</td><td data-l="المناقشة"><span>${fmtG(t.discussDate)} ${badge(dl(t.discussDate))}</span></td><td data-l="طلب الضمان">${fmtG(t.guaranteeDate)}</td><td data-l="التقديم"><span>${dayName(t.submitDate)} ${fmtG(t.submitDate)} ${fmtTime(t.submitTime)}</span></td><td data-l="فتح المظاريف"><span>${dayName(t.openDate)} ${fmtG(t.openDate)} ${fmtTime(t.openTime)} ${badge(dl(t.openDate))}</span></td><td data-l="الاستفسارات"><span>${fmtG(t.inquiryDate)} ${badge(dl(t.inquiryDate))}</span></td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="edit" data-id="${t.id}">تعديل</button><button class="btn s" data-a="att" data-id="${t.id}">المرفقات</button><button class="btn s d" data-a="del" data-id="${t.id}">حذف</button></div></td></tr>`).join(''):'<tr><td colspan="12" class="hint">لا توجد منافسات مطابقة</td></tr>';
+  $('listBody').innerHTML=L.length?L.map((t,i)=>`<tr><td data-l="م">${i+1}</td><td data-l="الجهة المالكة">${esc(t.owner)}</td><td data-l="رقم المنافسة">${esc(t.number)}</td><td class="nm" data-l="اسم المنافسة">${esc(t.name)}</td><td data-l="القيمة">${fmtN(t.value)}</td><td data-l="موقف الشراء">${stBadge(t.status)}</td><td data-l="المناقشة"><span>${fmtG(t.discussDate)} ${badge(dl(t.discussDate))}</span></td><td data-l="طلب الضمان">${fmtG(t.guaranteeDate)}</td><td data-l="التقديم"><span>${dayName(t.submitDate)} ${fmtG(t.submitDate)} ${fmtTime(t.submitTime)}</span></td><td data-l="فتح المظاريف"><span>${dayName(t.openDate)} ${fmtG(t.openDate)} ${fmtTime(t.openTime)} ${badge(dl(t.openDate))}</span></td><td data-l="الاستفسارات"><span>${fmtG(t.inquiryDate)} ${badge(dl(t.inquiryDate))}</span></td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="edit" data-id="${t.id}">تعديل</button>${t.driveFolder?`<button class="btn s x" data-a="drive" data-id="${t.id}">📁 Drive</button>`:''}<button class="btn s" data-a="att" data-id="${t.id}">المرفقات</button><button class="btn s d" data-a="del" data-id="${t.id}">حذف</button></div></td></tr>`).join(''):'<tr><td colspan="12" class="hint">لا توجد منافسات مطابقة</td></tr>';
 }
 $('listBody').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const id=b.dataset.id;
   if(b.dataset.a==='edit')requirePw(()=>openForm(id));
   if(b.dataset.a==='att')openAtt(id);
+  if(b.dataset.a==='drive'){const t=tenders.find(x=>x.id===id);if(t&&t.driveFolder)openUrl(t.driveFolder)}
   if(b.dataset.a==='del')requirePw(async()=>{const t=tenders.find(x=>x.id===id);if(!confirm(`حذف المنافسة "${t.name}" ومرفقاتها؟`))return;tenders=tenders.filter(x=>x.id!==id);saveT();try{for(const f of await listFiles(id))await delFile(f.id)}catch(er){}renderAll();toast('تم حذف المنافسة')})};
 ['fSearch','fStatus','fHide'].forEach(i=>$(i).addEventListener('input',()=>{if(editMode)return;renderList()}));
 
-const FIELDS=['owner','number','name','value','status','discussDate','guaranteeDate','inquiryDate','submitDate','submitTime','openDate','openTime','notes'];
+const FIELDS=['owner','number','name','value','status','discussDate','guaranteeDate','inquiryDate','submitDate','submitTime','openDate','openTime','driveFolder','notes'];
 function openForm(id,silent,pre){const t=id?tenders.find(x=>x.id===id):Object.assign({status:'جاري الشراء'},pre||{});$('t_id').value=id||'';FIELDS.forEach(f=>$('t_'+f).value=t[f]??'');
   const c=calcDates(t.submitDate||t.openDate);$('t_auto').checked=!id||(!t.discussDate&&!t.guaranteeDate)||(!!c&&t.discussDate===c.discussDate&&t.guaranteeDate===c.guaranteeDate);markAuto();if(!id)autoCalc();
   $('formTitle').textContent=id?'تعديل منافسة':'إضافة منافسة جديدة';$('formAttBtn').style.display=id?'inline-block':'none';$('formErr').textContent='';$('pasteBox').value='';$('owners').innerHTML=[...new Set(tenders.map(x=>x.owner))].map(o=>`<option value="${esc(o)}">`).join('');if(!silent)go('form')}
@@ -467,6 +465,7 @@ function saveForm(){
   const id=$('t_id').value,o={};FIELDS.forEach(f=>o[f]=$('t_'+f).value.trim());
   if(!o.owner||!o.number||!o.name||!o.openDate){$('formErr').textContent='أكمل الحقول الإلزامية: الجهة ورقم المنافسة واسمها وتاريخ الفتح';return}
   if(tenders.some(t=>t.number===o.number&&t.id!==id)){$('formErr').textContent='رقم المنافسة مسجل من قبل';return}
+  if(o.driveFolder&&!/^https?:\/\/\S+$/i.test(o.driveFolder)){$('formErr').textContent='رابط مجلد Drive غير صحيح';return}
   o.value=o.value===''?'':Number(o.value);
   let tid=id;
   if(id)Object.assign(tenders.find(t=>t.id===id),o,{updatedAt:Date.now()});else{tid='t'+Date.now();tenders.push(Object.assign({id:tid},o,{createdAt:Date.now()}))}
@@ -529,10 +528,10 @@ function renderAtt(){const s=$('attTender'),cur=s.value;s.innerHTML='<option val
 async function renderFiles(){
   const id=$('attTender').value,t=tenders.find(x=>x.id===id);$('attErr').textContent='';$('selAll').checked=false;
   $('attInfo').innerHTML=t?`${esc(t.owner)} — فتح المظاريف ${fmtG(t.openDate)} ${badge(dl(t.openDate))}`:'';
-  renderHist(t);
+  renderHist(t);renderDrive(t);
   if(!id){curFiles=[];$('attBody').innerHTML='<tr><td colspan="6" class="hint">اختر منافسة لعرض مرفقاتها وإضافة ملفات أو روابط</td></tr>';updSel();return}
   curFiles=(await listFiles(id)).sort((a,b)=>b.date-a.date);
-  $('attBody').innerHTML=curFiles.length?curFiles.map(f=>{const lk=f.kind==='link';return `<tr><td data-l="تحديد"><input type="checkbox" class="sel" value="${f.id}" aria-label="تحديد"></td><td data-l="النوع">${lk?'<span class="b g">رابط</span>':'<span class="b x">ملف</span>'}</td><td class="nm" data-l="الاسم">${lk?`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name)}</a>`:'<span>'+esc(f.name)+'</span>'}</td><td data-l="الحجم"><span>${lk?'—':fmtSize(f.size)}${!lk&&f.remote?' <span class="b x" title="محفوظ على السحابة ويُنزّل عند الفتح">☁ على السحابة</span>':''}${cloudCfg()&&f.synced!==(cloudCfg().owner+'/'+cloudCfg().repo)&&!f.tooBig?' <span class="b a">بانتظار المزامنة</span>':''}${f.tooBig?' <span class="b r" title="أكبر من 25MB">لا يُزامن (كبير)</span>':''}</span></td><td data-l="تاريخ الإرفاق">${new Date(f.date).toLocaleString('ar-EG')}</td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="open" data-id="${f.id}">${lk?'فتح':'تنزيل'}</button>${lk?'':`<button class="btn s" data-a="link" data-id="${f.id}">رابط</button>`}<button class="btn s" data-a="share" data-id="${f.id}">مشاركة</button><button class="btn s d" data-a="rm" data-id="${f.id}">حذف</button></div></td></tr>`}).join(''):'<tr><td colspan="6" class="hint">لا توجد مرفقات بعد. أضف ملفات أو روابط من الأعلى</td></tr>';
+  $('attBody').innerHTML=curFiles.length?curFiles.map(f=>{const lk=f.kind==='link';return `<tr><td data-l="تحديد"><input type="checkbox" class="sel" value="${f.id}" aria-label="تحديد"></td><td data-l="النوع">${lk?`<span class="b g">${driveKind(f.url)||'رابط'}</span>`:'<span class="b x">ملف</span>'}</td><td class="nm" data-l="الاسم">${lk?`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name)}</a>`:'<span>'+esc(f.name)+'</span>'}</td><td data-l="الحجم" class="${lk?'nosm':''}"><span>${lk?'—':fmtSize(f.size)}${!lk&&f.remote?' <span class="b x" title="محفوظ على السحابة ويُنزّل عند الفتح">☁ على السحابة</span>':''}${cloudCfg()&&f.synced!==(cloudCfg().owner+'/'+cloudCfg().repo)&&!f.tooBig?' <span class="b a">بانتظار المزامنة</span>':''}${f.tooBig?' <span class="b r" title="أكبر من 25MB">لا يُزامن (كبير)</span>':''}</span></td><td data-l="تاريخ الإرفاق">${new Date(f.date).toLocaleDateString('en-GB')}</td><td><div class="row" style="justify-content:center;gap:4px"><button class="btn s" data-a="open" data-id="${f.id}">${lk?'فتح':'تنزيل'}</button><button class="btn s" data-a="share" data-id="${f.id}">مشاركة</button><button class="btn s d" data-a="rm" data-id="${f.id}">حذف</button></div></td></tr>`}).join(''):'<tr><td colspan="6" class="hint">لا توجد مرفقات بعد. أضف ملفات أو روابط من الأعلى</td></tr>';
   updSel();
 }
 function selected(){const ids=[...document.querySelectorAll('.sel:checked')].map(x=>x.value);return curFiles.filter(f=>ids.includes(f.id))}
@@ -543,16 +542,23 @@ $('attBody').addEventListener('change',e=>{if(e.target.classList.contains('sel')
 async function uploadFiles(){const id=$('attTender').value,files=[...$('attFiles').files];if(!id){$('attErr').textContent='اختر المنافسة أولاً';return}if(!files.length){$('attErr').textContent='اختر ملفاً واحداً على الأقل';return}
   const s=await fs('readwrite');for(const f of files)s.put({id:'f'+Date.now()+Math.random().toString(36).slice(2,6),tid:id,kind:'file',name:f.name,type:f.type,size:f.size,date:Date.now(),blob:f});
   s.transaction.oncomplete=()=>{$('attFiles').value='';renderFiles();toast(`تم رفع ${files.length} ملف`);cloudQueue()}}
-async function addLink(){const id=$('attTender').value,name=$('linkName').value.trim(),url=$('linkUrl').value.trim();
+function driveKind(u){u=String(u||'');if(/drive\.google\.com\/(drive\/)?(u\/\d+\/)?folders\//.test(u))return 'مجلد Drive';if(/docs\.google\.com\/spreadsheets/.test(u))return 'جدول Google';if(/docs\.google\.com\/document/.test(u))return 'مستند Google';if(/docs\.google\.com\/presentation/.test(u))return 'عرض Google';if(/drive\.google\.com|docs\.google\.com/.test(u))return 'ملف Drive';return ''}
+async function pasteLink(){let t='';try{t=await navigator.clipboard.readText()}catch(e){}if(!t&&NP('Clipboard')){try{t=(await NP('Clipboard').read()).value||''}catch(e){}}const m=String(t).match(/https?:\/\/\S+/);if(m){$('linkUrl').value=m[0];$('attErr').textContent=''}else{$('linkUrl').focus();toast('انسخ رابط الملف أولاً، أو الصقه يدوياً في الخانة')}}
+function renderDrive(t,edit){const b=$('driveBox');if(!t){b.style.display='none';return}b.style.display='block';
+  b.innerHTML=t.driveFolder&&!edit?`<div class="row"><b>📁 مجلد المنافسة على Google Drive</b><span style="flex:1"></span><button class="btn n" onclick="openUrl(curT().driveFolder)">فتح المجلد</button><button class="btn s" onclick="setDrive(true)">تغيير</button></div><div class="hint" style="margin-top:4px">ارفع الملفات الكبيرة داخل هذا المجلد من تطبيق Drive، فتكون متاحة للجميع من أي جهاز بدون مساحة على الجوال.</div>`
+  :`<b>📁 مجلد المنافسة على Google Drive</b><div class="hint">أنشئ مجلداً للمنافسة في Drive، وارفع فيه الملفات الكبيرة، ثم الصق رابطه هنا مرة واحدة.</div><div class="row" style="margin-top:6px"><input id="drvIn" dir="ltr" value="${esc(t.driveFolder||'')}" placeholder="https://drive.google.com/drive/folders/..."><button class="btn p" onclick="setDrive()">حفظ</button>${t.driveFolder?'<button class="btn" onclick="renderDrive(curT())">إلغاء</button>':''}<button class="btn" onclick="openUrl('https://drive.google.com/drive/my-drive')">فتح Google Drive</button></div>`}
+function setDrive(change){const t=curT();if(!t)return;if(change){renderDrive(t,true);setTimeout(()=>$('drvIn')&&$('drvIn').focus(),50);return}
+  const raw=($('drvIn').value||'').trim(),v=raw.match(/https?:\/\/\S+/);if(!v&&raw){toast('الصق رابط المجلد من Google Drive');return}t.driveFolder=v?v[0]:'';saveT();renderDrive(t);renderList();toast('تم حفظ رابط مجلد المنافسة')}
+async function addLink(){const id=$('attTender').value,url=$('linkUrl').value.trim();let name=$('linkName').value.trim();if(!name)name=driveKind(url)||'';
   if(!id){$('attErr').textContent='اختر المنافسة أولاً';return}
   if(!/^https?:\/\/\S+$/i.test(url)){$('attErr').textContent='أدخل رابطاً صحيحاً يبدأ بـ https://';return}
   await rq((await fs('readwrite')).put({id:'l'+Date.now(),tid:id,kind:'link',name:name||url,url,date:Date.now()}));
   $('linkName').value='';$('linkUrl').value='';renderFiles();toast('تمت إضافة الرابط');cloudQueue()}
 ['linkName','linkUrl','attFiles'].forEach(i=>$(i).addEventListener('input',()=>$('attErr').textContent=''));
 function shareText(items){const t=tenders.find(x=>x.id===$('attTender').value);const links=items.filter(f=>f.kind==='link').map(f=>`- ${f.name}: ${f.url}`);const names=items.filter(f=>f.kind!=='link').map(f=>`- ${f.name}`);
-  return [`مرفقات منافسة: ${t?t.name:''}`,t?`رقم المنافسة: ${t.number} — ${t.owner}`:'',t&&t.openDate?`موعد فتح المظاريف: ${fmtG(t.openDate)} ${fmtTime(t.openTime)}`:'',links.length?'\nالروابط:\n'+links.join('\n'):'',names.length?'\nالملفات المرفقة:\n'+names.join('\n'):'',`\n${settings.company}`].filter(Boolean).join('\n')}
-async function shareItems(items){
-  if(!items.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}
+  return [`مرفقات منافسة: ${t?t.name:''}`,t?`رقم المنافسة: ${t.number} — ${t.owner}`:'',t&&t.openDate?`موعد فتح المظاريف: ${fmtG(t.openDate)} ${fmtTime(t.openTime)}`:'',t&&t.driveFolder?`\nمجلد المنافسة على Google Drive:\n${t.driveFolder}`:'',links.length?'\nالروابط:\n'+links.join('\n'):'',names.length?'\nالملفات المرفقة:\n'+names.join('\n'):'',`\n${settings.company}`].filter(Boolean).join('\n')}
+async function shareItems(items,allowEmpty){
+  if(!items.length&&!(allowEmpty&&curT()&&curT().driveFolder)){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}
   await ensureBlobs(items);
   const text=shareText(items),files=items.filter(f=>f.kind!=='link'&&f.blob).map(f=>new File([f.blob],f.name,{type:f.type||'application/octet-stream'}));
   try{
@@ -563,7 +569,7 @@ async function shareItems(items){
   files.forEach(f=>dlBlob(f,f.name));try{await navigator.clipboard.writeText(text)}catch(e){}
   toast(files.length?'جهازك لا يدعم مشاركة الملفات مباشرة، تم تنزيلها ونسخ النص لترسلها يدوياً':'تم نسخ نص الروابط، الصقه حيث تريد');
 }
-const shareSel=()=>shareItems(selected());
+const shareSel=()=>{const t=curT();if(!t){$('attErr').textContent='اختر المنافسة أولاً';return}const it=selOrAll();if(!it.length&&!t.driveFolder){$('attErr').textContent='لا توجد مرفقات للمشاركة';return}shareItems(it,true)};
 function shareWhatsApp(){const it=selected();if(!it.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}if(it.some(f=>f.kind!=='link'))toast('واتساب ويب يرسل الروابط والنص فقط. للملفات استخدم "مشاركة المحدد"');openUrl('https://wa.me/?text='+encodeURIComponent(shareText(it)))}
 function shareEmail(){const it=selected();if(!it.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}const t=tenders.find(x=>x.id===$('attTender').value);location.href=`mailto:?subject=${encodeURIComponent('مرفقات منافسة '+(t?t.number:''))}&body=${encodeURIComponent(shareText(it))}`}
 async function copyLinks(){const it=selected();if(!it.length){$('attErr').textContent='حدد مرفقاً واحداً على الأقل';return}copyTxt(shareText(it))}
