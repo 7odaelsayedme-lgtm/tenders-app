@@ -228,7 +228,7 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
     <details style="margin:8px 0 4px"><summary>رفع ملف صغير من الجهاز بدلاً من الرابط (حتى 25MB)</summary>
       <div class="row" style="margin-top:6px"><input type="file" id="attFiles" multiple><button class="btn" onclick="uploadFiles()">رفع</button></div></details>
     <div class="err" id="attErr"></div>
-    <div class="row" style="margin-bottom:8px"><button class="btn n" onclick="shareSel()">مشاركة المرفقات</button><span class="hint">ترسل الروابط عبر واتساب أو الإيميل أو أي تطبيق. إذا لم تحدد شيئاً تُرسل كل مرفقات المنافسة.</span><span class="hint" id="selCount"></span></div>
+    <div class="row" style="margin-bottom:8px"><button class="btn p" onclick="sendToReader()">تحليل في Claude</button><button class="btn n" onclick="shareSel()">مشاركة المرفقات</button><span class="hint">ترسل الروابط عبر واتساب أو الإيميل أو أي تطبيق. إذا لم تحدد شيئاً تُرسل كل مرفقات المنافسة.</span><span class="hint" id="selCount"></span></div>
     <div class="tw"><table class="rt"><thead><tr><th><input type="checkbox" id="selAll" aria-label="تحديد الكل"></th><th>النوع</th><th>الاسم</th><th>الحجم</th><th>تاريخ الإرفاق</th><th>إجراءات</th></tr></thead><tbody id="attBody"></tbody></table></div>
     <div id="linksHist" style="margin-top:14px"></div>
   </div>
@@ -325,7 +325,7 @@ table.editing td{background:#FFFDF6!important}table.editing input,table.editing 
 <div class="modal" id="linkModal"><div><h3 id="lmTitle">رابط المرفقات</h3><input id="lmUrl" dir="ltr" readonly onclick="this.select()"><p class="hint" id="lmInfo"></p><div class="row"><button class="btn n" onclick="copyTxt($('lmUrl').value)">نسخ الرابط</button><button class="btn x" onclick="lmWA()">واتساب</button><button class="btn" onclick="lmMail()">إيميل</button><button class="btn" onclick="openUrl($('lmUrl').value)">فتح</button><button class="btn d" onclick="$('linkModal').classList.remove('on')">إغلاق</button></div></div></div>
 
 <script>
-const APP_VERSION='1.6.1',DEVELOPER='Mahmoud Elsayed';
+const APP_VERSION='1.6.2',DEVELOPER='Mahmoud Elsayed';
 const MARK_PATHS=c=>`<defs><clipPath id="mc"><rect x="200" y="200" width="1200" height="300"/></clipPath></defs><g clip-path="url(#mc)" fill="none" stroke="${c}" stroke-width="72" stroke-linejoin="round" stroke-linecap="round"><path d="M262 545 L350 290 L483 462 L617 290 L690 500 L846 290 L955 452 Q985 498 1060 465 L1306 465 L1306 370 L1110 370"/><path d="M1110 465 A96.5 96.5 0 0 1 1110 272 L1305 272"/></g>`;
 const LOGO_TEXT=`<text x="790" y="655" text-anchor="middle" direction="rtl" font-family="Sakkal Majalla, Traditional Arabic, Tahoma" font-size="120" font-weight="bold" fill="#1D1D1B">المجال العربي</text>`;
 const STATUSES=['جاري الشراء','تم الشراء','لم يتم الشراء','تم التقديم','مستبعدة'];
@@ -625,6 +625,30 @@ async function buildZip(items){
 const zipName=t=>`مرفقات منافسة ${t?t.number:''}.zip`.replace(/\s+\.zip$/,'.zip');
 async function zipSel(){const it=selOrAll();if(!$('attTender').value){$('attErr').textContent='اختر المنافسة أولاً';return}if(!it.length){$('attErr').textContent='لا توجد مرفقات';return}
   try{toast('جاري تجهيز الملف المضغوط...');dlBlob(await buildZip(it),zipName(curT()))}catch(e){toast(e.message==='nozip'?'مكتبة الضغط لم تُحمّل، تأكد من الاتصال بالإنترنت':'تعذر إنشاء الملف المضغوط')}}
+// ---------- Send attachments to the tender reader (Claude artifact) ----------
+const CLAUDE_URL='https://claude.ai/code/session_01QAmBCzc4Tk8TXQ6RPozjLp';
+async function sendToReader(){
+  const t=curT();if(!t){$('attErr').textContent='اختر المنافسة أولاً';return}
+  const items=selOrAll();if(!items.length){$('attErr').textContent='لا توجد مرفقات لهذه المنافسة';return}
+  try{
+    if(!window.JSZip)throw new Error('nozip');
+    toast('جاري تجهيز المرفقات للتلخيص...');
+    await ensureBlobs(items);
+    const files=items.filter(f=>f.kind!=='link'&&f.blob),links=items.filter(f=>f.kind==='link');
+    const z=new JSZip(),used={};
+    files.forEach(f=>{let n=f.name,i=1;while(used[n]){const k=f.name.lastIndexOf('.');n=k>0?`${f.name.slice(0,k)} (${++i})${f.name.slice(k)}`:`${f.name} (${++i})`}used[n]=1;z.file(n,f.blob)});
+    z.file('tender.json',JSON.stringify({name:t.name||'',number:t.number||'',owner:t.owner||'',openDate:t.openDate||''}));
+    if(links.length)z.file('روابط المرفقات.txt','\ufeff'+links.map(f=>`${f.name}: ${f.url}`).join('\r\n'));
+    const blob=await z.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
+    dlBlob(blob,`للتلخيص - ${(t.number||t.name||'منافسة').toString().replace(/[\\/:*?"<>|]/g,' ')}.zip`);
+    if(!files.length)toast('كل مرفقات المنافسة دي روابط Drive. نزّل الملفات من Drive وارفعها في القارئ مباشرة');
+    else if(links.length)toast(`${links.length} مرفق محفوظ كرابط Drive فقط ومش داخل الملف المضغوط`);
+    const msg=`لخّص منافسة ${t.name||''} رقم ${t.number||''} على قالب قارئ الكراسات، وطلّع ملف HTML بالمرفقات. الملف المضغوط مرفق.`;
+    try{await navigator.clipboard.writeText(msg)}catch(_){}
+    toast('اتحفظ الملف المضغوط واتنسخت رسالة الطلب. في Claude دوس 📎 وارفع الملف والصق الرسالة');
+    setTimeout(()=>openUrl(CLAUDE_URL),1800);
+  }catch(e){toast(e.message==='nozip'?'مكتبة الضغط لم تُحمّل، تأكد من الاتصال بالإنترنت':'تعذر تجهيز المرفقات للتلخيص')}
+}
 async function uploadBlob(blob,name){
   const fd=new FormData();fd.append('file',blob,name);
   const r=await fetch('https://upload.gofile.io/uploadfile',{method:'POST',body:fd});const j=await r.json();
